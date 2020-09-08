@@ -1,53 +1,28 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>{{ title }} {{ '&ndash;' if title }} Seb Jones</title>
-        <link href="https://fonts.googleapis.com/css2?family=Lato&family=Lobster&family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="app.css" type="text/css" media="screen" charset="utf-8">
-    </head>
-    <body class="bg-black text-white">
-        <header class="w-full bg-black text-white text-2xl p-4 flex justify-between items-center lg:items-center flex-col lg:flex-row">
-            <h1 class="site-title text-3xl lg:text-5xl text-gray-300">Seb Jones</h1>
-            <nav class="w-full lg:w-auto">
-                <ul class="flex justify-around lg:justify-end items-center">
-                    <li>
-                        <p class="text-lg lg:text-2xl serif underline text-gray-300 lg:mr-8">Work &amp; Projects</p></h2>
-                    </li>
+---
+layout: layout.njk
+---
 
-                    <li>
-                        <a class="text-lg lg:text-2xl serif text-gray-300 lg:mr-4 underline" href="#">Blog</a></h2>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+{% for project in projects %}
+    <div class="w-full bg-blurred-image p-4 xl:p-16"
+         style="background-image: url('{{ project.backgroundImage }}');"
+         >
 
-        <main class="bg-white">
-            {% for project in projects %}
-                <div class="w-full bg-blurred-image p-4 xl:p-16"
-                     style="background-image: url('{{ project.backgroundImage }}');"
-                     >
+         <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
+             <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
+                  >
+                  <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ project.title }}</h2>
+                  <p class="text-base lg:text-xl text-shadow">{{ project.description }}</p>
+                  {% for link in project.links %}
+                      <p class="text-lg lg:text-2xl text-shadow-half underline mt-4 text-right"><a href="{{ link.href }}">{{ link.label }}</a></p>
+                  {% endfor %}
+             </div>
 
-                     <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
-                         <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
-                              >
-                              <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ project.title }}</h2>
-                              <p class="text-base lg:text-xl text-shadow">{{ project.description }}</p>
-                              {% for link in project.links %}
-                                  <p class="text-lg lg:text-2xl text-shadow-half underline mt-4 text-right"><a href="{{ link.href }}">{{ link.label }}</a></p>
-                              {% endfor %}
-                         </div>
-
-                         <img src="{{ project.image }}"
-                              width="640"
-                              height="512"
-                              alt="TODO"
-                              class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
-                              >
-                     </div>
-                </div>
-            {% endfor %}
-        </main>
-    </body>
-</html>
+             <img src="{{ project.image }}"
+                  width="640"
+                  height="512"
+                  alt="TODO"
+                  class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
+                  >
+         </div>
+    </div>
+{% endfor %}
