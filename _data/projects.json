@@ -1,0 +1,34 @@
+[
+    {
+        "title": "Faustian Sands",
+        "description": "A small game about choice and consequence. Made over a weekend for the Ludum Dare 44 game jam",
+        "image": "/faustian-sands.png",
+        "backgroundImage": "/faustian-sands-blurred.png",
+        "links": [
+            {
+                "label": "Source Code",
+                "href": "#"
+            },
+            {
+                "label": "Download",
+                "href": "#"
+            }
+        ]
+    },
+    {
+        "title": "Vidterm",
+        "description": "A single-file BASH script that plays videos in the terminal by rendering frames as ASCII",
+        "image": "/vidterm.jpg",
+        "backgroundImage": "/vidterm-blurred.jpg",
+        "links": [
+            {
+                "label": "Source Code",
+                "href": "#"
+            },
+            {
+                "label": "Download",
+                "href": "#"
+            }
+        ]
+    }
+]
