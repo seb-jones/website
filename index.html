@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Header</title>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&family=Lobster&family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="app.css" type="text/css" media="screen" charset="utf-8">
+    </head>
+    <body class="bg-black text-white">
+        <header class="w-full bg-black text-white text-2xl p-4 flex justify-between items-center lg:items-center flex-col lg:flex-row">
+            <h1 class="site-title text-3xl lg:text-5xl text-gray-300">Seb Jones</h1>
+            <nav class="w-full lg:w-auto">
+                <ul class="flex justify-around lg:justify-end items-center">
+                    <li>
+                        <p class="text-lg lg:text-2xl serif underline text-gray-300 lg:mr-8">Work &amp; Projects</p></h2>
+                    </li>
+
+                    <li>
+                        <a class="text-lg lg:text-2xl serif text-gray-300 lg:mr-4 underline" href="#">Blog</a></h2>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="bg-white">
+            <div class="w-full bg-blurred-image p-4 xl:p-16"
+                 style="background-image: url('faustian-sands-blurred.png');"
+                 >
+
+                 <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
+                     <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
+                          >
+                         <h2 class="text-2xl lg:text-5xl serif text-shadow">Faustian Sands</h2>
+                         <p class="text-base lg:text-xl text-shadow">A small game about choice and consequence. Made over a weekend for the Ludum Dare 44 game jam</p>
+                         <p class="text-lg lg:text-2xl text-shadow-half underline mt-4 text-right"><a href="#">Source Code</a></p>
+                         <p class="text-lg lg:text-2xl text-shadow-half underline text-right"><a href="#">Download</a></p>
+                     </div>
+
+                     <img src="faustian-sands.png"
+                          width="640"
+                          height="512"
+                          alt="TODO"
+                          class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
+                          >
+                 </div>
+            </div>
+
+            <div class="w-full bg-blurred-image p-4 xl:p-16"
+                 style="background-image: url('vidterm-blurred.jpg');"
+                 >
+
+                 <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
+                     <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
+                          >
+                         <h2 class="text-2xl lg:text-5xl serif text-shadow">Vidterm</h2>
+                         <p class="text-base lg:text-xl text-shadow">A single-file BASH script that plays videos in the terminal by rendering frames as ASCII</p>
+                         <p class="text-lg lg:text-2xl text-shadow-half underline mt-4 text-right"><a href="#">Source Code</a></p>
+                         <p class="text-lg lg:text-2xl text-shadow-half underline text-right"><a href="#">Download</a></p>
+                     </div>
+
+                     <img src="vidterm.jpg"
+                          width="640"
+                          height="512"
+                          alt="TODO"
+                          class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
+                          >
+                 </div>
+            </div>
+        </main>
+    </body>
+</html>

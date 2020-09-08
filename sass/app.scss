@@ -1,0 +1,30 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.serif {
+   font-family: 'Merriweather', serif;
+}
+
+.site-title {
+    font-family: 'Lobster', cursive;
+}
+
+.bg-blurred-image {
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+}
+
+.text-shadow-half {
+    text-shadow: 0.5pt 0.5pt black;
+}
+
+.text-shadow {
+    text-shadow: 1pt 1pt black;
+}
