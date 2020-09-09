@@ -12,6 +12,10 @@ code {
     font-family: 'Fira Code', monospace;
 }
 
+pre {
+    @apply my-2;
+}
+
 p {
     @apply my-2;
 }
@@ -25,7 +29,7 @@ img {
 }
 
 a {
-    @apply font-bold underline text-gray-800;
+    @apply font-bold underline text-gray-900;
 }
 
 .serif {
