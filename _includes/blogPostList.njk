@@ -19,7 +19,7 @@
         <h2 class="text-3xl serif">Categories</h1>
         <ul class="pl-4 list-disc">
             {% for tag in collections.tagList | sort %}
-                {% set tagUrl %}/blog/categories/{{ tag }}/{% endset %}
+                {% set tagUrl %}/blog/categories/{{ tag | slug }}/{% endset %}
                 <li><a href="{{ tagUrl | url }}">{{ tag }}</a></li>
             {% endfor %}
         </ul>
