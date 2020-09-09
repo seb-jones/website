@@ -3,6 +3,12 @@ layout: base.njk
 title: Blog
 ---
 
-{% set postList = collections.blog | reverse %}
+{% set mastheadItem = {
+    "title": "Blog",
+    "image": "/images/aeneid-opening-verse.jpg",
+    "backgroundImage": "/images/aeneid-opening-verse-blurred.jpg"
+} %}
+{% include "masthead.njk" %}
 
+{% set postList = collections.blog | reverse %}
 {% include "blogPostList.njk" %}
