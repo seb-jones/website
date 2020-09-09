@@ -3,14 +3,25 @@ layout: base.njk
 title: Blog
 ---
 
-<div class="container mx-auto max-w-screen-lg text-black">
-    <h2>Blog</h1>
+<div class="flex">
+    <aside class="max-w-screen-lg text-black p-4">
+        <h2 class="text-3xl serif">Categories</h1>
+        <ul>
+            {% for tag in collections.tagList | sort %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+    </aside>
 
-    {% for post in collections.blog | reverse %}
-        <article>
-            <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
-            <p>{{ post.date | date }}</p>
-            <p>{{ post.data.excerpt | md | safe }}</p>
-        </article>
-    {% endfor %}
+    <div class="container mx-auto max-w-screen-lg text-black p-4">
+        <h2 class="text-3xl serif">Blog</h1>
+
+        {% for post in collections.blog | reverse %}
+            <article class="mb-4">
+                <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+                <p>{{ post.date | date }}</p>
+                <p>{{ post.data.excerpt | md | safe }}</p>
+            </article>
+        {% endfor %}
+    </div>
 </div>
