@@ -7,6 +7,10 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(syntaxHighlight);
 
     eleventyConfig.addNunjucksFilter("md", (value) => { 
+        if (!value) {
+            return '';
+        }
+
         return md().renderInline(value);
     });
 

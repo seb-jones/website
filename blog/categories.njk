@@ -1,0 +1,17 @@
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - blog
+  addAllPagesToCollections: true
+eleventyComputed:
+  title: "Blog Category: “{{ tag }}”"
+layout: base.njk
+permalink: /blog/categories/{{ tag }}/
+---
+
+{% set postList = collections[ tag ] %}
+
+{% include "blogPostList.njk" %}

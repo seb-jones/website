@@ -3,27 +3,6 @@ layout: base.njk
 title: Blog
 ---
 
-<div class="flex flex-col md:flex-row-reverse">
-    <div class="container mx-auto max-w-screen-md text-black p-4">
-        <h2 class="text-3xl serif mb-4">Blog</h1>
+{% set postList = collections.blog | reverse %}
 
-        {% for post in collections.blog | reverse %}
-            <article class="mb-4">
-                <h3 class="text-xl">
-                    <a href="{{ post.url }}">{{ post.data.title }}</a>
-                </h3>
-                <p class="text-md text-gray-800 mb-2">{{ post.date | date }}</p>
-                <p>{{ post.data.excerpt | md | safe }}</p>
-            </article>
-        {% endfor %}
-    </div>
-
-    <aside class="max-w-xs text-black p-4">
-        <h2 class="text-3xl serif mb-4">Categories</h1>
-        <ul>
-            {% for tag in collections.tagList | sort %}
-                <li>{{ tag }}</li>
-            {% endfor %}
-        </ul>
-    </aside>
-</div>
+{% include "blogPostList.njk" %}
