@@ -1,0 +1,28 @@
+<div class="w-full bg-blurred-image p-4 xl:p-16"
+     style="background-image: url('{{ mastheadItem.backgroundImage }}');"
+     >
+
+     <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
+         <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
+              >
+              <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ mastheadItem.title }}</h2>
+
+              {% if mastheadItem.description %}
+                  <p class="text-base lg:text-xl text-shadow">{{ mastheadItem.description }}</p>
+              {% endif %}
+
+              {% if mastheadItem.links %}
+                  {% for link in mastheadItem.links %}
+                      <p class="text-lg lg:text-2xl text-shadow-half underline mt-2 text-right"><a class="text-white" href="{{ link.href }}">{{ link.label }}</a></p>
+                  {% endfor %}
+              {% endif %}
+         </div>
+
+         <img src="{{ mastheadItem.image }}"
+              width="640"
+              height="512"
+              alt="TODO"
+              class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
+              >
+     </div>
+</div>
