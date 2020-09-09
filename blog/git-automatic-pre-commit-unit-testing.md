@@ -71,7 +71,7 @@ git commit -m "Test commit"
 
 You should see the following output:
 
-```
+```text
 This commit will fail!
 ```
 
@@ -87,7 +87,7 @@ no failures, it will then run [PHP Code Sniffer](https://github.com/squizlabs/PH
 
 For this example, my working directory is set up as follows:
 
-```
+```text
 .
 ├── src
 │   └── main.php
@@ -160,7 +160,7 @@ Then we have to get the names of any modified files. `git status -s` provides
 a more concise listing of the currently-modified files. The output looks like
 this:
 
-```
+```text
 A  .gitignore
 A  composer.json
 A  composer.lock
@@ -181,7 +181,7 @@ files.
 My unit test is set to always fail for testing purposes. When I do a
 `git commit`, I see the following:
 
-```
+```text
 PHPUnit 8.2.3 by Sebastian Bergmann and contributors.
 
 F                                                                   1 / 1 (100%)
@@ -203,7 +203,7 @@ When I do `git status` I also observe that a commit has not taken place.
 
 After fixing the test, I try the commit again. This time, I get more output:
 
-```
+```text
 PHPUnit 8.2.3 by Sebastian Bergmann and contributors.
 
 .                                                                   1 / 1 (100%)
