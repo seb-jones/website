@@ -24,6 +24,10 @@ img {
     @apply mx-auto;
 }
 
+a {
+    @apply font-bold underline text-gray-800;
+}
+
 .serif {
    font-family: 'Merriweather', serif;
 }
