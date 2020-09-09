@@ -13,7 +13,7 @@ layout: base.njk
                   <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ project.title }}</h2>
                   <p class="text-base lg:text-xl text-shadow">{{ project.description }}</p>
                   {% for link in project.links %}
-                      <p class="text-lg lg:text-2xl text-shadow-half underline mt-4 text-right"><a href="{{ link.href }}">{{ link.label }}</a></p>
+                      <p class="text-lg lg:text-2xl text-shadow-half underline mt-2 text-right"><a href="{{ link.href }}">{{ link.label }}</a></p>
                   {% endfor %}
              </div>
 
