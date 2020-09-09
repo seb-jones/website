@@ -9,7 +9,7 @@ layout: base.njk
         <p class="text-md text-gray-800 mb-2">{{ post.date | date }}</p>
 
         {% if excerpt %}
-            <p>{{ excerpt }}</p>
+            <p>{{ excerpt | md | safe }}</p>
         {% endif %}
 
         {{ content | safe }}
