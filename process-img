@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 if [[ "$#" -ne 1 ]]; then
     printf "Usage: %s INPUT_FILE\n\n" $(basename "$0")
