@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2018-11-23
 title: "PHP: Basic Performance Testing"
-featuredImage: "/images/honami_koetsu_100_poets_anthology_section.jpg"
-featuredImageAltTag: "Calligraphy by Honami Koetsu."
+mastheadImage: "/images/honami_koetsu_100_poets_anthology_section.jpg"
+mastheadAlt: "Calligraphy by Honami Koetsu."
 excerpt: "In a [previous article](https://sebj.co.uk/blog/post/c-basic-performance-testing-on-linux) we looked at how you can test the performance of a C Program by using a high resolution timer. PHP has a similar capability, made available through the [microtime](https://secure.php.net/manual/en/function.microtime.php) function."
 tags: ['blog', 'PHP', 'Scripting', 'Performance']
 ---

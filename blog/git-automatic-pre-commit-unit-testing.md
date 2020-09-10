@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2019-06-29
 title: "Git: Automatic Pre-Commit Unit Testing"
-featuredImage: "/images/qingming_festival.jpg"
-featuredImageAltTag: "Close-up detail of the Chinese cityscape handscroll Along the River During Qingming Festival."
+mastheadImage: "/images/qingming_festival.jpg"
+mastheadAlt: "Close-up detail of the Chinese cityscape handscroll Along the River During Qingming Festival."
 excerpt: "Git allows the user to run custom scripts at various points in it's workflow. This is done through hooks. Here we will use hooks to ensure that unit tests are passing before allowing a commit."
 tags: ['blog', 'BASH', 'Scripting', 'Git']
 ---

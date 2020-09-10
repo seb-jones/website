@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2019-01-21
 title: "WordPress: Cloning a Live Site to make a Test Site"
-featuredImage: "/images/Rongo_Analects_02.jpg"
-featuredImageAltTag: "A page from The Analects of Confucius, in Chinese script."
+mastheadImage: "/images/Rongo_Analects_02.jpg"
+mastheadAlt: "A page from The Analects of Confucius, in Chinese script."
 excerpt: "A common task when administrating WordPress is to set up a copy of an existing site in a sub-directory of the same server, which can be used to test potentially site-breaking changes (such as plugin updates). I recently had to do this on a website with a particularly large amount of data, and my usual technique of cloning a WordPress site was not sufficient. In this article I will be documenting what I learned from this job."
 tags: ['blog', 'PHP', 'WordPress']
 ---

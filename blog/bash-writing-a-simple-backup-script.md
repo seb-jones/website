@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2018-11-17
 title: "BASH: Writing a simple Backup Script"
-featuredImage: "/images/gilgamesh_tablet.jpg"
-featuredImageAltTag: "Epic of Gilgamesh Tablet"
+mastheadImage: "/images/gilgamesh_tablet.jpg"
+mastheadAlt: "Epic of Gilgamesh Tablet"
 excerpt: "Today we will be looking at how to write a simple Backup script using BASH and various Unix tools. Our script will determine the destination path and input file names by reading a plain-text file. It will then compress the input files into an archive in the destination path."
 tags: ['blog', 'BASH', 'Linux', 'Scripting']
 ---

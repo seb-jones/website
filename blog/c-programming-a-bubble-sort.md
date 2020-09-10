@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2018-12-20
 title: "C: Programming a Bubble Sort"
-featuredImage: "/images/mencius.jpg"
-featuredImageAltTag: "A manuscript of the book of Mencius."
+mastheadImage: "/images/mencius.jpg"
+mastheadAlt: "A manuscript of the book of Mencius."
 excerpt: "A bubble sort is one of the most basic ways to sort data. It is not efficient but the simplicity makes it a good place to start understanding the concepts. Today we will be implementing a bubble sort in C."
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---

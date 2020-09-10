@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2019-05-25
 title: "My Picks for Ludum Dare 44"
-featuredImage: "/images/faustian-sands.png"
-featuredImageAltTag: "Screenshot from the game 'Faustian Sands'"
+mastheadImage: "/images/faustian-sands.png"
+mastheadAlt: "Screenshot from the game 'Faustian Sands'"
 excerpt: "I recently took part in Ludum Dare 44. For the uninitiated, Ludum Dare is a hackathon in which participants make a game in 48 hours. The following is my list of personal highlights from the games I played."
 tags: ['blog', 'Game Development']
 ---

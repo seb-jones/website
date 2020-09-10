@@ -1,27 +1,27 @@
 <div class="w-full bg-blurred-image p-4 xl:p-16"
-     style="background-image: url('{{ mastheadItem.image | blurredImage }}');"
+     style="background-image: url('{{ mastheadImage | blurredImage }}');"
      >
 
      <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
          <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 lg:mb-4 max-w-xl lg:max-w-none"
               >
-              <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ mastheadItem.title if mastheadItem.title else title }}</h2>
+              <h2 class="text-2xl lg:text-5xl serif text-shadow">{{ mastheadTitle if mastheadTitle else title }}</h2>
 
-              {% if mastheadItem.description %}
-                  <p class="text-base lg:text-xl text-shadow">{{ mastheadItem.description }}</p>
+              {% if mastheadDescription %}
+                  <p class="text-base lg:text-xl text-shadow">{{ mastheadDescription }}</p>
               {% endif %}
 
-              {% if mastheadItem.links %}
-                  {% for link in mastheadItem.links %}
+              {% if mastheadLinks %}
+                  {% for link in mastheadLinks %}
                       <p class="text-lg lg:text-2xl text-shadow-half underline mt-2 text-right"><a class="text-white" href="{{ link.href }}">{{ link.label }}</a></p>
                   {% endfor %}
               {% endif %}
          </div>
 
-         <img src="{{ mastheadItem.image }}"
+         <img src="{{ mastheadImage }}"
               width="640"
               height="512"
-              alt="{{ mastheadItem.alt }}"
+              alt="{{ mastheadAlt }}"
               class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
               >
      </div>

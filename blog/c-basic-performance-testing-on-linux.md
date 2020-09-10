@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2018-11-02
 title: "C: Basic Performance Testing on Linux"
-featuredImage: "/images/sora_diary.jpg"
-featuredImageAltTag: "Diary of Sora, a disciple of the Japanese poet Basho."
+mastheadImage: "/images/sora_diary.jpg"
+mastheadAlt: "Diary of Sora, a disciple of the Japanese poet Basho."
 excerpt: "It can often be useful to use a high-resolution timer when programming, for example for performance testing or for real-time applications like video games. In this article we will be looking at how to do this on Linux with `clock_gettime`."
 tags: ['blog', 'C', 'Linux', 'Programming', 'Performance']
 ---

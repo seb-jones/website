@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2018-10-19
 title: "BASH: Making a simple 'Yes/No' Prompt"
-featuredImage: "/images/odyssey.jpg"
-featuredImageAltTag: "A fifteenth-century manuscript of The Odyssey."
+mastheadImage: "/images/odyssey.jpg"
+mastheadAlt: "A fifteenth-century manuscript of The Odyssey."
 excerpt: "On Linux I often use the `shutdown now` command to shut down my computer, so I thought I would alias it to `sdn`. However, I was concerned that it might be too easy to accidentally type these three characters and end up losing unsaved work, so I decided to implement a prompt to confirm the shutdown. In this article we shall be looking at how I implemented this with a simple BASH script."
 tags: ['blog', 'BASH', 'Linux', 'Scripting']
 ---

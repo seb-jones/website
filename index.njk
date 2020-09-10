@@ -3,6 +3,11 @@ layout: base.njk
 ---
 
 {% for project in projects %}
-    {% set mastheadItem = project %}
+    {% set mastheadTitle = project.title %}
+    {% set mastheadDescription = project.description %}
+    {% set mastheadImage = project.image %}
+    {% set mastheadAlt = project.alt %}
+    {% set mastheadLinks = project.links %}
+
     {% include "masthead.njk" %}
 {% endfor %}

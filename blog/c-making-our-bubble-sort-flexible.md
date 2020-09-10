@@ -2,8 +2,8 @@
 layout: blogPost.njk
 date: 2019-01-01
 title: "C: Making our Bubble Sort Flexible"
-featuredImage: "/images/Harley_MS_5694_Lucian_Pro_Imaginibus_Scholia_by_Arethas_from_the_British_Library.jpg"
-featuredImageAltTag: "Manuscript of a commentary on the Meditations of Marcus Aurelius."
+mastheadImage: "/images/Harley_MS_5694_Lucian_Pro_Imaginibus_Scholia_by_Arethas_from_the_British_Library.jpg"
+mastheadAlt: "Manuscript of a commentary on the Meditations of Marcus Aurelius."
 excerpt: "[Last time](https://sebj.co.uk/blog/post/c-programming-a-bubble-sort/) we implemented a basic bubble sort algorithm in C. It only worked on strings, and was thus very limited. In this article we will be making a more flexible bubble sort that can work on any type."
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
