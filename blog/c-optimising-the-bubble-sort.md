@@ -4,7 +4,7 @@ date: 2019-01-07
 title: "C: Optimising the Bubble Sort"
 mastheadImage: "/images/Koku_Saitcho_shounin.jpg"
 mastheadAlt: "Calligraphy by Emperor Saga"
-excerpt: "In the [previous article](https://sebj.co.uk/blog/post/c-making-our-bubble-sort-flexible/) we upgraded our [basic bubble](http://sebj.co.uk/blog/c-programming-a-bubble-sort/) sort to work with any data type. Now we will make some small improvements to its performance."
+excerpt: "In the [previous article](/blog/c-making-our-bubble-sort-flexible/) we upgraded our [basic bubble](/blog/c-programming-a-bubble-sort/) sort to work with any data type. Now we will make some small improvements to its performance."
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
 
