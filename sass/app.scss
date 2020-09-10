@@ -18,19 +18,20 @@ code {
 }
 
 pre {
-    @apply my-2;
+    @apply my-4;
 }
 
 p {
-    @apply my-2;
+    @apply my-4;
 }
 
 h4 {
-    @apply text-2xl font-bold mt-8;
+    @apply text-2xl font-bold my-4;
 }
 
 img {
     @apply mx-auto;
+    @apply my-4;
 }
 
 a {
