@@ -10,6 +10,11 @@ body {
 
 code {
     font-family: 'Fira Code', monospace;
+    background-color: #272822;
+    color: #f8f8f2;
+    @apply p-1;
+    @apply rounded;
+    @apply whitespace-no-wrap;
 }
 
 pre {
