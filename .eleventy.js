@@ -18,6 +18,10 @@ module.exports = function(eleventyConfig) {
         return moment(value).format("Do MMMM YYYY");
     });
 
+    eleventyConfig.addNunjucksFilter("blurredImage", (value) => { 
+        return value.replace(/^\/images/, '\/images\/blurred');
+    });
+
     eleventyConfig.addCollection("tagList", function (collection) {
         let tagSet = new Set();
 
