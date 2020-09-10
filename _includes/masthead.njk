@@ -1,5 +1,5 @@
 <div class="w-full bg-blurred-image p-4 xl:p-16"
-     style="background-image: url('{{ mastheadItem.backgroundImage }}');"
+     style="background-image: url('{{ mastheadItem.image | blurredImage }}');"
      >
 
      <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
@@ -21,7 +21,7 @@
          <img src="{{ mastheadItem.image }}"
               width="640"
               height="512"
-              alt="TODO"
+              alt="{{ mastheadItem.alt }}"
               class="shadow-xl mb-4 md:mb-4 lg:mb-0 mx-auto w-full max-w-xl lg:max-w-none"
               >
      </div>
