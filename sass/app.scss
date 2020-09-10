@@ -35,7 +35,11 @@ img {
 }
 
 a {
-    @apply font-bold underline text-gray-900;
+    @apply font-black underline text-gray-900 transition-colors duration-100 ease-in-out;
+}
+
+a:hover {
+    @apply text-gray-600;
 }
 
 .serif {
