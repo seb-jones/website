@@ -1,14 +1,12 @@
 ---
-layout: base.njk
+layout: blogBase.njk
 title: Blog
----
-
-{% set mastheadItem = {
+mastheadItem: {
     "title": "Blog",
     "image": "/images/aeneid-opening-verse.jpg",
     "alt": "A manuscript of the opening verses of The Aeneid."
-} %}
-{% include "masthead.njk" %}
+}
+---
 
 {% set postList = collections.blog | reverse %}
 {% include "blogPostList.njk" %}

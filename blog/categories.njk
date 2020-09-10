@@ -8,10 +8,13 @@ pagination:
   addAllPagesToCollections: true
 eleventyComputed:
   title: "Blog Category: “{{ tag }}”"
-layout: base.njk
+layout: blogBase.njk
 permalink: /blog/categories/{{ tag | slug }}/
+mastheadItem: {
+    "image": "/images/aeneid-opening-verse.jpg",
+    "alt": "A manuscript of the opening verses of The Aeneid."
+}
 ---
 
 {% set postList = collections[ tag ] %}
-
 {% include "blogPostList.njk" %}
