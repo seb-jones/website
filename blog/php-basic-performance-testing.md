@@ -8,7 +8,7 @@ excerpt: "In a [previous article](/blog/c-basic-performance-testing-on-linux) we
 tags: ['blog', 'PHP', 'Scripting', 'Performance']
 ---
 
-#### Getting the Current Time
+### Getting the Current Time
 
 The following listing shows all the code we use to record a timestamp.
 
@@ -37,7 +37,7 @@ Then we add a function to get the amount of seconds that have elapsed since the 
 
 `store_timing` takes a name and uses our previous function to record a timing in an array with it, and pushes that array to our global `$function_timings` variable. We will call `store_timing` from any function where we want to find how long it took.
 
-#### Writing Functions to be Measured
+### Writing Functions to be Measured
 
 Now we will write some slow functions that we can test for speed.
 
@@ -65,7 +65,7 @@ roots();
 
 Both the `powers` function and the `roots` function do a lot of computationally-expensive operations using loops. The important part is at the end of each function, where we use our `store_timing` function to record how long the function took. Also notice that we use the `__FUNCTION__` constant, which always evaluates to the name of the function in which execution is currently taking place.
 
-#### Output Results
+### Output Results
 
 Finally, we will output the timings we have recorded as a HTML table.
 
@@ -120,7 +120,7 @@ Then we simply echo a table with all the data from this timing record.
 
 Finally, and importantly, we set `$prev_time` to the time of this timing record, so that on the next iteration this time will be considered the previous time.
 
-#### In Conclusion
+### In Conclusion
 
 The following is a listing of our entire PHP program:
 

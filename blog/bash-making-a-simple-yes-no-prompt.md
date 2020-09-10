@@ -10,7 +10,7 @@ tags: ['blog', 'BASH', 'Linux', 'Scripting']
 
 We will make a function and put it in our `~/.bashrc` file. This will make it usable from any terminal we open henceforth.
 
-#### Step 1: Declare Our Function
+### Step 1: Declare Our Function
 ```bash
 function sdn()
 {
@@ -20,7 +20,7 @@ function sdn()
 
 This simply tells BASH that when we run the `sdn` command it should execute the statements between the curly brackets.
 
-#### Step 2: Create an Input Loop
+### Step 2: Create an Input Loop
 
 ```bash
 input=""
@@ -35,7 +35,7 @@ First we create a variable called `input` and set it to the empty string. The us
 
 We then create a `while` loop. This will execute each command we place between `do` and `done` while the condition given in the square brackets is true. The condition we give will evaluate to true when the variable `input` does not equal "n" and does not equal "y". The `-a` token means 'and'.
 
-#### Step 3: Reading Input
+### Step 3: Reading Input
 
 Now we actually read the user input.
 
@@ -50,7 +50,7 @@ We also echo the empty string to add a newline after the user's input.
 
 Now we have a loop that asks for user input on each cycle and then checks the given value to see if it is either "n" or "y". It will keep prompting the user until they give one of these characters. Now we need to decide what happens when the user enters "y".
 
-#### Step 4: Checking Input
+### Step 4: Checking Input
 
 ```bash
 if [ "$input" = "y" ]
@@ -61,7 +61,7 @@ fi
 
 At this point, the `input` variable should either hold "n" or "y". So, if it holds "y", we shutdown, and if it doesn't, we can just do nothing. Here we use an `if` statement to check this condition. If `input` *does* equal "y", then the statements between `then` and `fi` are executed. The `shutdown now` command does exactly what you'd expect.
 
-#### In Conclusion
+### In Conclusion
 
 Here is what our complete function looks like:
 

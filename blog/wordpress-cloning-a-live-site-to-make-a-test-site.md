@@ -8,7 +8,7 @@ excerpt: "A common task when administrating WordPress is to set up a copy of an 
 tags: ['blog', 'PHP', 'WordPress']
 ---
 
-#### Using 'All-in-One WP Migration'
+### Using 'All-in-One WP Migration'
 
 My usual process of cloning a site looks something like this:
 
@@ -28,17 +28,17 @@ The next step was where I came across a problem. The file was over a gigabyte in
 
 I could have contacted their support and asked them to change it, but since it was my client who was the account holder of the website, I felt that it might be complicated, so I left that option as a last resort.
 
-#### Using 'Duplicator'
+### Using 'Duplicator'
 
 The [Duplicator](https://wordpress.org/plugins/duplicator/) plugin serves a similar purpose to All-in-One WP Migration, but it does not require you to have a fresh installation of WordPress. Instead, it exports you an archive of the data and an installer that can be used on the server. You can upload this archive and installer script using FTP, thus avoiding the maximum upload limit of the website.
 
 However, it turned out this plugin was a non-starter, literally. I ran the export process and it timed out.
 
-#### Using 'WP Staging'
+### Using 'WP Staging'
 
 The final plugin I tried, and the one that worked, was [WP Staging](https://wordpress.org/plugins/wp-staging/). It pretty much did exactly what I set out to do: it created a clone of the site in a sub-directory. It did end up taking a long time to work, but that was probably more to do with the amount of data being copied and the available server resources, rather than the plugin itself.
 
-#### In Conclusion
+### In Conclusion
 
 All-in-One WP Migration and Duplicator have their uses. Both are viable solutions for performing backups or migrating WordPress sites to another server. Both have their weak points: Duplicator seems to fail when you ask it to do too much, and All-in-One WP Migration relies on you having control of the maximum file upload size of the server you are targeting.
 

@@ -8,7 +8,7 @@ excerpt: "A bubble sort is one of the most basic ways to sort data. It is not ef
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
 
-#### Step 1: Defining our function
+### Step 1: Defining our function
 
 ```c
 // Step 4 Goes Here
@@ -32,7 +32,7 @@ Our function takes a list of strings and the size of said list, and a boolean va
 
 A bubble sort works by iterating over the list repeatedly, comparing the values of each consecutive item and switching them if necessary, until an iteration takes place with no switching. To implement this behaviour, we start by creating a `do...while` loop that keeps iterating as long as the variable `changed` is set to true.
 
-#### Step 2: Iterating over our list
+### Step 2: Iterating over our list
 
 ```c
 changed = false;
@@ -45,7 +45,7 @@ for (size_t i = 1; i < size; ++i)
 
 On each iteration, we first set the `changed` variable to false, and then we start a `for` loop to iterate over each item in the list. Notice that `i` is initialised to 1, not 0. This is because we will be comparing each item with the item *before* it.
 
-#### Step 3: Comparing and switching items
+### Step 3: Comparing and switching items
 
 ```c
 if (bubble_sort_test(list[i], list[i - 1], descending))
@@ -64,7 +64,7 @@ If we should switch, we create a temporary variable that is set to the previous 
 
 We then set changed to true, so that the `do...while` loop will iterate again.
 
-#### Step 4: Defining our test function
+### Step 4: Defining our test function
 
 ```c
 bool bubble_sort_test(char *a, char *b, bool descending)
@@ -76,7 +76,7 @@ bool bubble_sort_test(char *a, char *b, bool descending)
 
 If our list is sorted in descending order, then we return the boolean value evaluated by `strcmp(a, b) > 0`. Otherwise we do the opposite.
 
-#### In Conclusion
+### In Conclusion
 
 Here is a complete program that uses these functions to sort a list of C source files by name.
 

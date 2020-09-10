@@ -8,7 +8,7 @@ excerpt: "In the [previous article](/blog/c-making-our-bubble-sort-flexible/) we
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
 
-#### The Function
+### The Function
 
 Here is the bubble sort function that we wrote last time and will be optimising today:
 
@@ -48,7 +48,7 @@ void bubble_sort(void *list, size_t size, size_t count,
 }
 ```
 
-#### Moving Variable Declarations out of Loops
+### Moving Variable Declarations out of Loops
 
 The first simple change we will make is to pull any variable declarations out of loops, so they don't have to be allocated on the stack every iteration. This kind of thing would probably be done automatically by an optimising compiler, but we don't know for sure, so we might as well make certain of it.
 
@@ -94,7 +94,7 @@ void bubble_sort(void *list, size_t size, size_t count,
 }
 ```
 
-#### Avoiding repeated malloc calls
+### Avoiding repeated malloc calls
 
 `malloc` can be a relatively slow function. Since we know that the size of the temporary buffer will remain the same throughout the lifetime of the `bubble_sort` function, we can `malloc` it once at the start of the function and free it once at the end:
 
@@ -138,7 +138,7 @@ void bubble_sort(void *list, size_t size, size_t count,
 }
 ```
 
-#### Reducing Iterations
+### Reducing Iterations
 
 Each iteration of the bubble sort puts at least one item in the right place. On the first iteration, the largest item is guaranteed to end up at the last index of the list. Likewise, on the second iteration, the second-largest item will definitely be placed in the second-to-last index. We can use this knowledge to optimise. We don't need to iterate over those indices because we know that the items they contain are already in the right place.
 

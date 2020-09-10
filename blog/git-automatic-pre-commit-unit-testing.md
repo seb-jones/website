@@ -14,7 +14,7 @@ line interface. Also note that I am writing this on Linux - I don't see any
 reason why this method wouldn't work on something like Git For Windows, but
 I will not be testing it on that.
 
-#### A brief introduction to Git Hooks
+### A brief introduction to Git Hooks
 
 Simply put, Git Hooks are scripts that are placed in `.git/hooks` by the user
 and are executed by Git at various times. They can use any scripting language
@@ -32,7 +32,7 @@ code then Git will not continue with the commit.
 For a more in-depth treatment of Git hooks, have a look at [the Git documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks). For a
 reference of all available hooks, see the [githooks reference page](https://git-scm.com/docs/githooks).
 
-#### A contrived example
+### A contrived example
 
 Before we hook up unit testing, lets look at a very basic example. Create the
 `.git/hooks/pre-commit` file and add this to it:
@@ -77,7 +77,7 @@ This commit will fail!
 
 You can confirm that the commit didn't run by doing `git status`.
 
-#### Implementing Pre-Commit Tests
+### Implementing Pre-Commit Tests
 
 Now that we have the basics down, we can implement unit testing in our
 pre-commit hook. This script will perform two functions. First it will run
@@ -136,7 +136,7 @@ For simple situations like this, I prefer to use the `||` operator over an `if`
 statement. However, if you need to run many commands conditionally, an `if`
 statement may be a better choice for clarity.
 
-#### Adding PHP Code Sniffer
+### Adding PHP Code Sniffer
 
 Implementing our code sniffer is a bit more complicated. Because it can
 potentially modify files, we have to stage them again before letting the commit
@@ -176,7 +176,7 @@ substitution to remove the first three characters of each line. This gets
 stored in the `MODIFIED_FILES` variable. Finally, we invoke `git add` on those
 files.
 
-#### In Conclusion
+### In Conclusion
 
 My unit test is set to always fail for testing purposes. When I do a
 `git commit`, I see the following:

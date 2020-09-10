@@ -8,7 +8,7 @@ excerpt: "Today we will be looking at how to write a simple Backup script using 
 tags: ['blog', 'BASH', 'Linux', 'Scripting']
 ---
 
-#### Step 1: Prerequisite Functions
+### Step 1: Prerequisite Functions
 
 Firstly, we are going to need a function to help parse our destination and input file paths correctly:
 
@@ -27,7 +27,7 @@ expand_tildes()
 
 This function first checks if there are any arguments, in which case it loops through each argument and uses `eval` to evaluate `echo $i` as BASH code, thus printing the full directory if the argument contained a tilde (~) character. We need this function because BASH performs Tilde Expansion before Variable Expansion, and we will be storing our destination and input file paths in variables later.
 
-#### Step 2: Determine Input File Paths
+### Step 2: Determine Input File Paths
 
 ```bash
 src_list_file=~/etc/backup/src.files
@@ -49,7 +49,7 @@ We then make sure that our src list file exists using the `-f` operator in an `i
 
 If `src_list_file` does not contain the path of a valid file, we echo a message and use `2>&1` to redirect it to Standard Error.
 
-#### Step 3: Determine the Destination Path
+### Step 3: Determine the Destination Path
 
 ```bash
 if [ -f "$dst_path_file" ]
@@ -64,7 +64,7 @@ fi
 
 This is more or less the same as above, apart from how we parse the file data. We first use `cat` to print the contents of the file at `dst_path_file` to Standard Output. We surround this with `$( )` to send this to the `expand_tildes` function we defined earlier. We then surround that code with another `$( )` to send the output of the `expand_tildes` function to the `dst_path` variable. Thus, we will have a path extracted from `dst_file_path`, with tilde character expanded if it was present.
 
-#### Step 4: Archive Input Files to Destination
+### Step 4: Archive Input Files to Destination
 
 Now that we have our input file paths and our destination path, we can do the actual backing up by archiving the input files.
 
@@ -97,7 +97,7 @@ Finally, we use the `tar` program to compress the input files into a single arch
 
 We provide the full path of the destination file as the first argument, and the (tilde-expanded) input file paths as the second argument.
 
-#### In Conclusion
+### In Conclusion
 
 Here is a full listing of our script:
 

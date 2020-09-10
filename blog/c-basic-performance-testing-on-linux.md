@@ -10,7 +10,7 @@ tags: ['blog', 'C', 'Linux', 'Programming', 'Performance']
 
 See [this article](https://docs.microsoft.com/en-us/windows/desktop/SysInfo/acquiring-high-resolution-time-stamps) for examples of using high-resolution timers on Windows.
 
-#### Getting the Current Time
+### Getting the Current Time
 
 ```c
 unsigned long get_time_in_microseconds()
@@ -29,7 +29,7 @@ The function starts by declaring a variable of type `struct timespec`, which is 
 
 The `timespec` struct stores two variables: `tv_sec`, the amount of seconds elapsed, and `tv_nsec`, the amount of nanoseconds that have elapsed excluding the seconds stored in `tv_sec`. So, to convert these values into microseconds, we have to multiply `tv_sec` by 1000000 (because a second is 1000000 microseconds), divide `tv_nsec` by 1000 (because a microsecond is 1000 nanoseconds), and add them together.
 
-#### Writing Functions to Test
+### Writing Functions to Test
 
 Now that we have a function with which to measure time, we need some functions to use it with. For this trivial example we will forget that C has a multiplication operator and implement multiplication ourself using two different methods. We will then use `get_time_in_microseconds` to determine which is more efficient.
 
@@ -58,7 +58,7 @@ unsigned long multiply_recursive(unsigned long a, unsigned long b)
 
 These should be fairly easy to understand. The first function simply adds `a` to itself `b` times. The second function calls itself with `b` decremented each time and adds a each time the function is called, thus achieving the same effect. Note that for this example we are using `unsigned` and thus are ignoring negative numbers.
 
-#### Measuring the Performance of our Functions
+### Measuring the Performance of our Functions
 
 ```c
 int main()
@@ -94,7 +94,7 @@ You will also need to include some Standard Library and Linux System files. Put 
 #include <time.h>
 ```
 
-#### In Conclusion
+### In Conclusion
 
 If we run the compiled program using `./a.out` we get something like this:
 

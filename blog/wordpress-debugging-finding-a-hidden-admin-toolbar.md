@@ -8,7 +8,7 @@ excerpt: "I was recently hired to fix an issue on a WordPress site where the Adm
 tags: ['blog', 'PHP', 'WordPress', 'Debugging']
 ---
 
-#### Checking the Page Source
+### Checking the Page Source
 
 My first move was to have a look at the page source code to see if the HTML for toolbar even existed in the webpage that was being served. On Firefox you can use the `Control - U` shortcut to open the page source in a separate tab. A quick text search with `Control - F` for 'admin' did not bring up any results, and by looking at the footer, where the WordPress toolbar would normally be placed, I could clearly see that the toolbar wasn't there.
 
@@ -30,7 +30,7 @@ A certain cache plugin that I have used in the past offered a setting that disab
 
 I disabled this cache plugin completely and there was still no admin bar. It didn't look like any of the other plugins on the site would be responsible, so I chose not to spend any more time there for the time being.
 
-#### Looking at Theme Code
+### Looking at Theme Code
 
 The website in question had a theme that was written from scratch, so there was potential for the problem to be found there. WordPress provides a basic editor for theme code, which can be accessed by going to 'Appearance > Editor'. This saved me the effort of having to clone the site on my system, which I would have had to do for more complicated code editing.
 
@@ -49,7 +49,7 @@ The [__return_false](https://developer.wordpress.org/reference/functions/__retur
 
 Upon navigating to the front-end, I found that the problem was only partially solved. The admin toolbar was now appearing, but it had no styling.
 
-#### Restoring the WordPress styles
+### Restoring the WordPress styles
 
 It is possible to disable the default WordPress styles and scripts, and this is not an unreasonable thing to do if you know they are not needed, because you can reduce the size of the served document and thus reduce bandwidth usage and transfer time. After some searching, I found the following code:
 
@@ -88,6 +88,6 @@ endif;
 
 With this code commented, the admin toolbar was styled as usual.
 
-#### In Conclusion
+### In Conclusion
 
 There was still one problem. The WordPress Admin Toolbar now overlapped the top of the site. This may have been why the original developer chose to disable it. In this case the client was fine with this small aesthetic issue since it didn't actually interfere with editing or affect the experience for the end user.

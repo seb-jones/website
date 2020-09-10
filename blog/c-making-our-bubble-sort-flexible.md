@@ -8,7 +8,7 @@ excerpt: "[Last time](/blog/c-programming-a-bubble-sort/) we implemented a basic
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
 
-#### Step 1: Defining a Sort Function
+### Step 1: Defining a Sort Function
 
 ```c
 void bubble_sort(void *list, size_t size, size_t count, 
@@ -22,7 +22,7 @@ In order to sort a list of any type, our sort function needs to know the `size` 
 
 A custom comparison function is also required. It is defined as taking two `void` pointers, which will point to the two items being compared, and returns an `int` representing which value is larger, in the same way that the return value of `strcmp` does.
 
-#### Step 2: Sort Loop
+### Step 2: Sort Loop
 
 ```c
 bool changed;
@@ -42,7 +42,7 @@ while (changed);
 
 This looks mostly the same as the basic bubble sort from the previous article. The main addition to note is that we cast our `list` parameter to a `char` pointer called `items`. We do this because pointer addition on `void` pointers is technically illegal in C, because a `void` variable has no defined size. Some compilers still allow pointer mathematics on `void` pointers, but Visual Studio does not allow it, so casting to a `char *` is more portable.
 
-#### Step 3: Comparing Items
+### Step 3: Comparing Items
 
 ```c
 char *a = items + (i - 1) * size;
@@ -72,7 +72,7 @@ An `if` statement is used to decide whether we should switch, based on whether w
 
 Now we have to actually switch the items. We have to allocate a temporary buffer using malloc, and then we do the switch using a series of `memcpy` calls. Finally, we free the temporary buffer and set `changed` to `true`.
 
-#### Step 4: Defining a Compare Function
+### Step 4: Defining a Compare Function
 
 ```c
 int compare_ints(void *a, void *b)
@@ -96,7 +96,7 @@ Here are two examples of compare functions, for `int` and `char *` (string) type
 
 The retrieval of the actual values from the `void *` parameters may look a little confusing. First, we cast the parameter as a pointer of the type we want. For example `(int *) a` casts the `a` parameter as a pointer to an `int`. We then *dereference* the pointer by wrapping it in `*( )`, which retrieves the `int` value that `a`, points to.
 
-#### In Conclusion
+### In Conclusion
 
 Here is a complete program that serves an example for sorting both integers and strings with our new function:
 
