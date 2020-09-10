@@ -10,6 +10,7 @@ pagination:
   addAllPagesToCollections: true
 eleventyComputed:
   title: "Blog Category: “{{ tag }}”"
+  description: "Blog posts on the subject of “{{ tag }}” by Web Developer and Hobbyist Programmer Seb Jones."
 layout: blogBase.njk
 permalink: /blog/categories/{{ tag | slug }}/
 mastheadImage: "/images/aeneid-opening-verse.jpg"
