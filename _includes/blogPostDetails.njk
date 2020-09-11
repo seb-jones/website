@@ -1,4 +1,4 @@
-<div class="flex justify-between text-gray-800 text-lg">
+<div class="flex flex-col lg:flex-row justify-between text-gray-800 text-sm lg:text-lg">
     {% if categories.length > 0 %}
         <p class="m-0">
         {{ "Categories:" if categories.length > 1 else "Category:"}}
@@ -8,5 +8,5 @@
         </p>
     {% endif %}
 
-    <p class="text-md text-gray-700 italic m-0 text-right">Published {{ date | date }}</p>
+    <p class="text-md text-gray-700 m-0">Published {{ date | date }}</p>
 </div>

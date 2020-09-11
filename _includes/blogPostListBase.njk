@@ -6,9 +6,9 @@ layout: blogBase.njk
     {{ content | safe }}
 </main>
 
-<aside class="max-w-xs text-black">
+<aside class="max-w-xs text-black mt-8 lg:my-0">
     <h2 class="text-3xl serif">Categories</h1>
-    <ul class="py-4">
+    <ul class="py-2 lg:py-4">
         {% for tag in collections.tagList | sort %}
             {% set tagUrl %}/blog/categories/{{ tag | slug }}/{% endset %}
             <li><a href="{{ tagUrl | url }}">{{ tag }}</a></li>

@@ -3,12 +3,14 @@ layout: base.njk
 description: Projects and Blog of Web Developer and Hobbyist Programmer Seb Jones.
 ---
 
-{% for project in projects %}
-    {% set mastheadTitle = project.title %}
-    {% set mastheadDescription = project.description %}
-    {% set mastheadImage = project.image %}
-    {% set mastheadAlt = project.alt %}
-    {% set mastheadLinks = project.links %}
+<main>
+    {% for project in projects %}
+        {% set mastheadTitle = project.title %}
+        {% set mastheadDescription = project.description %}
+        {% set mastheadImage = project.image %}
+        {% set mastheadAlt = project.alt %}
+        {% set mastheadLinks = project.links %}
 
-    {% include "masthead.njk" %}
-{% endfor %}
+        {% include "masthead.njk" %}
+    {% endfor %}
+</main>

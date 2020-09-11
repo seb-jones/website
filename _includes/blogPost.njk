@@ -5,7 +5,7 @@ eleventyComputed:
 ---
 
 <main class="container mx-auto max-w-screen-lg text-black">
-    <div class="mb-6">
+    <div class="mb-0 lg:mb-6">
         {% set categories = tags | categoryTags %}
         {% include 'blogPostDetails.njk' %}
     </div>
