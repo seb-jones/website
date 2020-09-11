@@ -42,6 +42,12 @@ a:hover {
     @apply text-gray-600;
 }
 
+.masthead-description {
+    a {
+        @apply font-black underline text-white;
+    }
+}
+
 .serif {
    font-family: 'Merriweather', serif;
 }

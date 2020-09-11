@@ -1,13 +1,11 @@
 ---
 layout: blogBase.njk
+eleventyComputed:
+  mastheadDescription: "{{ excerpt }}"
 ---
 
 <main class="container mx-auto max-w-screen-lg text-black">
-    <p class="text-md text-gray-700 italic mt-0 mb-2">Published {{ date | date }}</p>
-
-    {% if excerpt %}
-        <p>{{ excerpt | md | safe }}</p>
-    {% endif %}
+    <p class="text-md text-gray-700 italic mt-0 mb-2 text-right">Published {{ date | date }}</p>
 
     {{ content | safe }}
 </main>

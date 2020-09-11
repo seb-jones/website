@@ -8,7 +8,7 @@
               <h2 class="text-2xl lg:text-5xl serif text-shadow text-center lg:text-left">{{ mastheadTitle if mastheadTitle else title }}</h2>
 
               {% if mastheadDescription %}
-                  <p class="text-base lg:text-2xl text-shadow">{{ mastheadDescription }}</p>
+                  <p class="masthead-description text-base lg:text-2xl text-shadow">{{ mastheadDescription | md | safe }}</p>
               {% endif %}
 
               {% if mastheadLinks %}
