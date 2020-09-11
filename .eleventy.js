@@ -18,6 +18,10 @@ module.exports = function(eleventyConfig) {
         return moment(value).format("Do MMMM YYYY");
     });
 
+    eleventyConfig.addNunjucksFilter("sitemapDate", (value) => { 
+        return moment(value).format("YYYY-MM-DD");
+    });
+
     eleventyConfig.addNunjucksFilter("blurredImage", (value) => { 
         return value.replace(/^\/images/, '\/images\/blurred');
     });
