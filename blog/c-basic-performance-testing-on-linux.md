@@ -4,9 +4,11 @@ date: 2018-11-02
 title: "C: Basic Performance Testing on Linux"
 mastheadImage: "/images/sora_diary.jpg"
 mastheadAlt: "Diary of Sora, a disciple of the Japanese poet Basho."
-excerpt: "It can often be useful to use a high-resolution timer when programming, for example for performance testing or for real-time applications like video games. In this article we will be looking at how to do this on Linux with `clock_gettime`."
+excerpt: "A tutorial about basic performance testing using high-precision timer functions in C on Linux."
 tags: ['blog', 'C', 'Linux', 'Programming', 'Performance']
 ---
+
+It can often be useful to use a high-resolution timer when programming, for example for performance testing or for real-time applications like video games. In this article we will be looking at how to do this on Linux with `clock_gettime`.
 
 See [this article](https://docs.microsoft.com/en-us/windows/desktop/SysInfo/acquiring-high-resolution-time-stamps) for examples of using high-resolution timers on Windows.
 

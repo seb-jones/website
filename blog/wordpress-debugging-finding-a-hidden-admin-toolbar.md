@@ -4,9 +4,11 @@ date: 2019-01-14
 title: "WordPress Debugging: Finding a hidden Admin Toolbar"
 mastheadImage: "/images/lotus_sutra.jpg"
 mastheadAlt: "Sanskrit manuscript of the Lotus Sutra."
-excerpt: "I was recently hired to fix an issue on a WordPress site where the Admin Toolbar would not show up when viewing front-end pages, even if you were logged in as an admin. In this article I will document the process by which I fixed the problem."
-tags: ['blog', 'PHP', 'WordPress', 'Debugging']
+excerpt: "An explanation of a specific case where I had to debug a hidden admin bar in a WordPress installation."
+tags: ['blog', 'PHP', 'Debugging', 'Web Development']
 ---
+
+I was recently hired to fix an issue on a WordPress site where the Admin Toolbar would not show up when viewing front-end pages, even if you were logged in as an admin. In this article I will document the process by which I fixed the problem.
 
 ### Checking the Page Source
 

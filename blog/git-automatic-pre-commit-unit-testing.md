@@ -4,9 +4,11 @@ date: 2019-06-29
 title: "Git: Automatic Pre-Commit Unit Testing"
 mastheadImage: "/images/qingming_festival.jpg"
 mastheadAlt: "Close-up detail of the Chinese cityscape handscroll Along the River During Qingming Festival."
-excerpt: "Git allows the user to run custom scripts at various points in it's workflow. This is done through hooks. Here we will use hooks to ensure that unit tests are passing before allowing a commit."
+excerpt: "How to use Git hooks to run scripts such as unit tests automatically when code is committed."
 tags: ['blog', 'BASH', 'Scripting', 'Git']
 ---
+
+Git allows the user to run custom scripts at various points in it's workflow. This is done through hooks. Here we will use hooks to ensure that unit tests are passing before allowing a commit.
 
 This example will be in the context of PHP development, but it should be
 trivial to adapt them to any language that has testing tools with a command

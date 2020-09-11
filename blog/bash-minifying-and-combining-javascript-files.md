@@ -4,9 +4,11 @@ date: 2018-10-24
 title: "BASH: Minifying and combining JavaScript files"
 mastheadImage: "/images/Zhuangzi_Tian_Yun_Ms.jpg"
 mastheadAlt: "Tang dynasty Zhuangzi manuscript."
-excerpt: "[Sass](http://sass-lang.com/) has the nice feature of taking a group of source files and putting them together as a single CSS file, with the advantage of reducing the number of HTTP connections the web browser has to open when loading your webpage, thus speeding it up. It also has the option to *minify* the code—taking out any characters that are purely cosmetic. In this article we will perform a similar task for JavaScript files, using BASH and a JavaScript minifier program."
-tags: ['blog', 'BASH', 'Javascript', 'Linux', 'Scripting']
+excerpt: "How to write a BASH script to minify and combine source code files from scratch."
+tags: ['blog', 'BASH', 'Linux', 'Scripting']
 ---
+
+[Sass](http://sass-lang.com/) has the nice feature of taking a group of source files and putting them together as a single CSS file, with the advantage of reducing the number of HTTP connections the web browser has to open when loading your webpage, thus speeding it up. It also has the option to *minify* the code—taking out any characters that are purely cosmetic. In this article we will perform a similar task for JavaScript files, using BASH and a JavaScript minifier program.
 
 I will be using `yui-compressor`, but it should be very easy to substitute any other CLI JavaScript minifier in to this script.
 

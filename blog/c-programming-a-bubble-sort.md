@@ -4,9 +4,11 @@ date: 2018-12-20
 title: "C: Programming a Bubble Sort"
 mastheadImage: "/images/mencius.jpg"
 mastheadAlt: "A manuscript of the book of Mencius."
-excerpt: "A bubble sort is one of the most basic ways to sort data. It is not efficient but the simplicity makes it a good place to start understanding the concepts. Today we will be implementing a bubble sort in C."
+excerpt: "A quick tutorial on how to implement a bubble sort in C."
 tags: ['blog', 'C', 'Programming', 'Algorithms']
 ---
+
+A bubble sort is one of the most basic ways to sort data. It is not efficient but the simplicity makes it a good place to start understanding the concepts. Today we will be implementing a bubble sort in C.
 
 ### Step 1: Defining our function
 

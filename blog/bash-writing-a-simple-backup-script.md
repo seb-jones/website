@@ -4,9 +4,11 @@ date: 2018-11-17
 title: "BASH: Writing a simple Backup Script"
 mastheadImage: "/images/gilgamesh_tablet.jpg"
 mastheadAlt: "Epic of Gilgamesh Tablet"
-excerpt: "Today we will be looking at how to write a simple Backup script using BASH and various Unix tools. Our script will determine the destination path and input file names by reading a plain-text file. It will then compress the input files into an archive in the destination path."
+excerpt: "A tutorial on how to roll your own backup script in BASH."
 tags: ['blog', 'BASH', 'Linux', 'Scripting']
 ---
+
+Today we will be looking at how to write a simple Backup script using BASH and various Unix tools. Our script will determine the destination path and input file names by reading a plain-text file. It will then compress the input files into an archive in the destination path.
 
 ### Step 1: Prerequisite Functions
 
