@@ -17,5 +17,5 @@ mastheadImage: "/images/aeneid-opening-verse.jpg"
 mastheadAlt: "A manuscript of the opening verses of The Aeneid."
 ---
 
-{% set postList = collections[ tag ] %}
+{% set postList = collections[ tag ] | reverse %}
 {% include "blogPostList.njk" %}
