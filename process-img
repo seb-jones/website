@@ -13,6 +13,8 @@ filename=$(basename "$1")
 script_dir=$(dirname "$0")
 target_dir="$script_dir/images"
 
+mkdir -p "$script_dir/images/blurred"
+
 # Generate blurred, compressed image
 ./blur-img "$1" "$temp"
 guetzli "$temp" "$target_dir/blurred/$filename"
