@@ -8,6 +8,10 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
+ol {
+    @apply list-decimal pl-8;
+}
+
 code {
     font-family: 'Fira Code', monospace;
     background-color: #272822;
