@@ -4,7 +4,7 @@ date: 2019-01-14
 title: "WordPress Debugging: Finding a hidden Admin Toolbar"
 mastheadImage: "/images/lotus_sutra.jpg"
 mastheadAlt: "Sanskrit manuscript of the Lotus Sutra."
-excerpt: "An explanation of a specific case where I had to debug a hidden admin bar in a WordPress installation."
+excerpt: "An explanation of a specific debugging case in which the  admin bar was sporadically hidden in a WordPress installation."
 tags: ['blog', 'PHP', 'Debugging', 'Web Development']
 ---
 
