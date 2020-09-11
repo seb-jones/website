@@ -5,6 +5,8 @@ const moment = require("moment");
 const slugify = require("slugify");
 
 module.exports = function(eleventyConfig) {
+    eleventyConfig.addPassthroughCopy("images");
+
     eleventyConfig.addPlugin(syntaxHighlight);
 
     eleventyConfig.addNunjucksFilter("md", value => { 

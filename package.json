@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "clean": "rm -rf _site && mkdir _site && cp -r images _site/images",
+        "clean": "rm -rf _site",
         "dev:mix": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "dev:eleventy": "cross-env ELEVENTY_ENV=development npx @11ty/eleventy",
         "prod:mix": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
