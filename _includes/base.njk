@@ -4,7 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         {% if description or excerpt %}
-            <meta name="description" content="{{ description if description else excerpt }}">
+            {% set metaDescription = description if description else excerpt %}
+            <meta name="description" content="{{ metaDescription | md | striptags }}">
         {% endif %}
         <title>{{ title }} {{ '–' if title }} Seb Jones</title>
         <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
