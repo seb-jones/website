@@ -3,12 +3,18 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        {% if metaDescription%}
+
+        {% if metaDescription %}
             {% set metaDescription = description if description else excerpt %}
             <meta name="description" content="{{ metaDescription | md | striptags }}">
         {% endif %}
+
         <title>{{ title }} {{ '–' if title }} Seb Jones</title>
-        <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+
+        {% if linkSyntaxHighlightingTheme %}
+            <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+        {% endif %}
+
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=Fira+Code&family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/app.css" type="text/css" media="screen" charset="utf-8">
 
