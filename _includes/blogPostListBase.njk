@@ -2,11 +2,11 @@
 layout: blogBase.njk
 ---
 
-<main class="container mx-auto max-w-screen-lg text-black p-4 lg:p-8">
+<main class="container mx-auto max-w-screen-lg text-black">
     {{ content | safe }}
 </main>
 
-<aside class="max-w-xs text-black p-4 lg:p-8 xl:p-16">
+<aside class="max-w-xs text-black">
     <h2 class="text-3xl serif">Categories</h1>
     <ul class="py-4">
         {% for tag in collections.tagList | sort %}

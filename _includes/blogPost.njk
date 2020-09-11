@@ -2,8 +2,8 @@
 layout: blogBase.njk
 ---
 
-<main class="container mx-auto max-w-screen-lg text-black p-4 lg:p-8">
-    <p class="text-md text-gray-700 italic mb-2">Published {{ date | date }}</p>
+<main class="container mx-auto max-w-screen-lg text-black">
+    <p class="text-md text-gray-700 italic mt-0 mb-2">Published {{ date | date }}</p>
 
     {% if excerpt %}
         <p>{{ excerpt | md | safe }}</p>
