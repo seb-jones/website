@@ -9,7 +9,7 @@
         "dev:eleventy": "cross-env ELEVENTY_ENV=development npx @11ty/eleventy",
         "prod:mix": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod:eleventy": "cross-env ELEVENTY_ENV=production npx @11ty/eleventy",
-        "prod": "npm-run-all --parallel prod:*",
+        "prod": "npm-run-all clean --parallel prod:*",
         "watch:mix": "npm run dev:mix -- --watch",
         "watch:eleventy": "cross-env ELEVENTY_ENV=development npx @11ty/eleventy --watch",
         "serve:eleventy": "cross-env ELEVENTY_ENV=development npx @11ty/eleventy --serve",
