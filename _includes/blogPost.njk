@@ -2,10 +2,12 @@
 layout: blogBase.njk
 ---
 
-<p class="text-md text-gray-700 italic mb-2">{{ date | date }}</p>
+<div class="blog-post">
+    <p class="text-md text-gray-700 italic mb-2">{{ date | date }}</p>
 
-{% if excerpt %}
-    <p>{{ excerpt | md | safe }}</p>
-{% endif %}
+    {% if excerpt %}
+        <p>{{ excerpt | md | safe }}</p>
+    {% endif %}
 
-{{ content | safe }}
+    {{ content | safe }}
+</div>
