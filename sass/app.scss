@@ -8,32 +8,30 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.blog-post {
-    code {
-        font-family: 'Fira Code', monospace;
-        background-color: #272822;
-        color: #f8f8f2;
-        @apply px-1;
-        @apply rounded;
-        @apply whitespace-no-wrap;
-    }
+code {
+    font-family: 'Fira Code', monospace;
+    background-color: #272822;
+    color: #f8f8f2;
+    @apply px-1;
+    @apply rounded;
+    @apply whitespace-no-wrap;
+}
 
-    pre {
-        @apply my-4;
-    }
+pre {
+    @apply my-4;
+}
 
-    p {
-        @apply my-4;
-    }
+p {
+    @apply my-4;
+}
 
-    h3 {
-        @apply text-2xl font-bold my-4;
-    }
+h3 {
+    @apply text-2xl font-bold my-4;
+}
 
-    img {
-        @apply mx-auto;
-        @apply my-4;
-    }
+img {
+    @apply mx-auto;
+    @apply my-4;
 }
 
 a {
