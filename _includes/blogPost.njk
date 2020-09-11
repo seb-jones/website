@@ -5,8 +5,10 @@ eleventyComputed:
 ---
 
 <main class="container mx-auto max-w-screen-lg text-black">
-    {{ content | safe }}
+    <div class="mb-6">
+        {% set categories = tags | categoryTags %}
+        {% include 'blogPostDetails.njk' %}
+    </div>
 
-    {% set categories = tags | categoryTags %}
-    {% include 'blogPostDetails.njk' %}
+    {{ content | safe }}
 </main>
