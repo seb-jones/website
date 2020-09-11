@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
 
-        {% if metaDescription %}
+        {% if description or excerpt %}
             {% set metaDescription = description if description else excerpt %}
             <meta name="description" content="{{ metaDescription | md | striptags }}">
         {% endif %}
