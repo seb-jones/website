@@ -5,6 +5,9 @@ eleventyComputed:
 ---
 
 <main class="container mx-auto max-w-screen-lg text-black">
+    {% set categories = tags | categoryTags %}
+    {% include 'blogPostCategories.njk' %}
+
     <p class="text-md text-gray-700 italic mt-0 mb-2 text-right">Published {{ date | date }}</p>
 
     {{ content | safe }}
