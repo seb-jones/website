@@ -5,17 +5,5 @@ layout: base.njk
 {% include "masthead.njk" %}
 
 <div class="flex flex-col lg:flex-row-reverse text-xl">
-    <div class="container mx-auto max-w-screen-lg text-black p-4 lg:p-8 xl:p-16">
-        {{ content | safe }}
-    </div>
-
-    <aside class="max-w-xs text-black p-4 lg:p-8 xl:p-16">
-        <h2 class="text-3xl serif">Categories</h1>
-        <ul class="py-4">
-            {% for tag in collections.tagList | sort %}
-                {% set tagUrl %}/blog/categories/{{ tag | slug }}/{% endset %}
-                <li><a href="{{ tagUrl | url }}">{{ tag }}</a></li>
-            {% endfor %}
-        </ul>
-    </aside>
+    {{ content | safe }}
 </div>
