@@ -11,7 +11,7 @@ layout: blogBase.njk
     <ul class="py-2">
         {% for tag in collections.tagList | sort %}
             {% set tagUrl %}/blog/categories/{{ tag | slug }}/{% endset %}
-            <li><a href="{{ tagUrl | url }}">{{ tag }}</a></li>
+            <li><a class="text-lg leading-relaxed" href="{{ tagUrl | url }}">{{ tag }}</a></li>
         {% endfor %}
     </ul>
 </aside>
