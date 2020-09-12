@@ -1,7 +1,7 @@
 [
     {
         "title": "Faustian Sands",
-        "description": "A small game about choice and consequence. Made over a weekend for the Ludum Dare 44 game jam",
+        "description": "A small game about choice and consequence. Made over a weekend for the Ludum Dare 44 game jam.",
         "image": "/images/faustian-sands.jpg",
         "alt": "The logo for Faustian Sands.",
         "links": [
@@ -17,7 +17,7 @@
     },
     {
         "title": "Vidterm",
-        "description": "A single-file BASH script that plays videos in the terminal by rendering frames as ASCII",
+        "description": "A single-file BASH script that plays videos in the terminal by rendering frames as ASCII.",
         "image": "/images/vidterm.jpg",
         "alt": "A screenshot of Vidterm, a program that plays videos in a text-based terminal.",
         "links": [
