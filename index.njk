@@ -10,6 +10,7 @@ description: Projects and Blog of Web Developer and Hobbyist Programmer Seb Jone
         {% set mastheadImage = project.image %}
         {% set mastheadAlt = project.alt %}
         {% set mastheadLinks = project.links %}
+        {% set mastheadLazyLoadImage = (not loop.first) %}
 
         {% include "masthead.njk" %}
     {% endfor %}
