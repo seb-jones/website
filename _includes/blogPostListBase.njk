@@ -2,13 +2,13 @@
 layout: blogBase.njk
 ---
 
-<main class="container mx-auto max-w-screen-lg text-black">
+<main class="container mx-auto lg:max-w-screen-md text-black">
     {{ content | safe }}
 </main>
 
 <aside class="max-w-xs text-black mt-8 lg:my-0">
-    <h2 class="text-3xl serif">Categories</h1>
-    <ul class="py-2 lg:py-4">
+    <h2 class="text-2xl serif">Categories</h1>
+    <ul class="py-2">
         {% for tag in collections.tagList | sort %}
             {% set tagUrl %}/blog/categories/{{ tag | slug }}/{% endset %}
             <li><a href="{{ tagUrl | url }}">{{ tag }}</a></li>

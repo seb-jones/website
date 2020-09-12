@@ -30,7 +30,17 @@ p {
 }
 
 h3 {
-    @apply text-3xl font-bold mb-4;
+    @apply text-lg font-bold my-4;
+}
+
+@media (min-width: 640px) {
+    p {
+        @apply text-lg;
+    }
+
+    h3 {
+        @apply text-xl;
+    }
 }
 
 img {
