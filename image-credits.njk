@@ -1,0 +1,28 @@
+---
+layout: blogBase.njk
+title: "Image Credits"
+mastheadImage: "/images/Takeda_Shingen.jpg"
+mastheadAlt: "A portrait of Takeda Shingen by Utagawa Kuniyoshi"
+creditUrls:
+  - https://commons.wikimedia.org/wiki/File:Sora_diary.jpg
+  - https://commons.wikimedia.org/wiki/File:Harley_MS_5694_Lucian_Pro_Imaginibus_Scholia_by_Arethas_from_the_British_Library.png
+  - https://upload.wikimedia.org/wikipedia/commons/8/84/Rongo_Analects_02.jpg  
+  - https://upload.wikimedia.org/wikipedia/commons/7/71/Koku_Saitcho_shounin.jpg
+  - https://upload.wikimedia.org/wikipedia/commons/4/46/Takeda_Shingen.jpg
+  - https://upload.wikimedia.org/wikipedia/commons/a/a5/Zhuangzi_Tian_Yun_Ms.JPG
+  - https://commons.wikimedia.org/wiki/File:Cristoforo_Majorana_-_Leaf_from_Eclogues,_Georgics_and_Aeneid_-_Walters_W40055R_-_Open_Obverse.jpg
+  - https://en.wikipedia.org/wiki/Epic_of_Gilgamesh#/media/File:British_Museum_Flood_Tablet.jpg
+  - https://upload.wikimedia.org/wikipedia/commons/4/46/Honami_K%C5%8Detsu_100_Poets_Anthology_section.jpg
+  - https://commons.wikimedia.org/wiki/File:A_Sanskrit_manuscript_of_Lotus_Sutra_in_South_Turkestan_Brahmi_script.jpg
+  - https://upload.wikimedia.org/wikipedia/commons/f/f6/Jiatai_Era_Mencius_title_page.jpg
+  - https://commons.wikimedia.org/wiki/File:Odyssey-crop.jpg
+  - https://en.wikipedia.org/wiki/File:Qingming_Festival_Detail_7.jpg
+---
+
+<main class="container mx-auto max-w-screen-lg text-black whitespace-normal break-all text-base">
+    <ul class="list-disc">
+        {% for url in creditUrls %}
+            <li><a href="{{ url }}">{{ url  }}</a></li>
+        {% endfor %}
+    </ul>
+</main>
