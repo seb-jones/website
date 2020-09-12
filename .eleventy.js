@@ -36,6 +36,10 @@ module.exports = function(eleventyConfig) {
         });
     });
 
+    eleventyConfig.addNunjucksFilter("lazyLoadImages", value => {
+        return value.replace(/<img\s/g, '<img loading="lazy" ')
+    });
+
     const nonCategoryTags = ["all", "blog"];
 
     const filterCategoryTags = (tags) => { 

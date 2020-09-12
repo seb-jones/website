@@ -11,5 +11,5 @@ eleventyComputed:
         {% include 'blogPostDetails.njk' %}
     </div>
 
-    {{ content | safe }}
+    {{ content | lazyLoadImages | safe }}
 </main>
