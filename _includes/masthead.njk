@@ -11,13 +11,13 @@
                   <p class="mb-0 mt-4 masthead-description text-base lg:text-xl text-shadow">{{ mastheadDescription | md | safe }}</p>
               {% endif %}
 
-              <div class="mt-2">
-                  {% if mastheadLinks %}
+              {% if mastheadLinks %}
+                  <div class="mt-2">
                       {% for link in mastheadLinks %}
                           <p class="lg:text-lg text-shadow-half underline  mb-0 mt-2 text-right"><a class="text-white" href="{{ link.href }}">{{ link.label }}</a></p>
                       {% endfor %}
-                  {% endif %}
-              </div>
+                  </div>
+              {% endif %}
          </div>
 
          <img src="{{ mastheadImage }}"
