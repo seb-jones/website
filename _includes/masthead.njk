@@ -5,17 +5,19 @@
      <div class="flex justify-between items-end flex-col-reverse lg:flex-row">
          <div class="container mx-auto flex flex-col lg:pr-4 xl:pr-16 max-w-xl lg:max-w-none"
               >
-              <h2 class="mb-0 mt-4 text-2xl lg:text-5xl serif text-shadow text-center lg:text-left">{{ mastheadTitle if mastheadTitle else title }}</h2>
+              <h2 class="mb-0 mt-4 text-2xl lg:text-4xl serif text-shadow text-center lg:text-left">{{ mastheadTitle if mastheadTitle else title }}</h2>
 
               {% if mastheadDescription %}
-                  <p class="mb-0 mt-4 masthead-description text-base lg:text-2xl text-shadow">{{ mastheadDescription | md | safe }}</p>
+                  <p class="mb-0 mt-4 masthead-description text-base lg:text-xl text-shadow">{{ mastheadDescription | md | safe }}</p>
               {% endif %}
 
-              {% if mastheadLinks %}
-                  {% for link in mastheadLinks %}
-                      <p class="text-lg lg:text-2xl text-shadow-half underline mb-0 mt-4 text-right"><a class="text-white" href="{{ link.href }}">{{ link.label }}</a></p>
-                  {% endfor %}
-              {% endif %}
+              <div class="mt-2">
+                  {% if mastheadLinks %}
+                      {% for link in mastheadLinks %}
+                          <p class="lg:text-lg text-shadow-half underline  mb-0 mt-2 text-right"><a class="text-white" href="{{ link.href }}">{{ link.label }}</a></p>
+                      {% endfor %}
+                  {% endif %}
+              </div>
          </div>
 
          <img src="{{ mastheadImage }}"
