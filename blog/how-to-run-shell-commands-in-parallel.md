@@ -51,3 +51,43 @@ The `find` syntax is quite inconsistent with other Linux tools so it can be conf
 If you run this command in a directory with PNG files, any files with spaces in their name should now be correctly compressed to a file with the same name and a `-fs8.png` suffix.
 
 ### An Advanced Example
+
+Now we will do a similar thing with `guetzli`, a program that compresses JPEG images. Unlike `pngquant`, `guetzli` requires you to specify both the input and the output filenames, so our method above won't work. Instead we will use `sed` to transform the file names from `find` into an input and output argument, and then use `tr` to transform newlines into null terminator characters.
+
+```bash
+find . -maxdepth 1 -name '*.jpg' | \
+    sed -E -e 's/^(.*)(\.jpg)$/\0\n\1-compressed\2/g' | \
+    tr '\n' '\0' | \
+    xargs --verbose -0 -P 0 -n 2 guetzli
+```
+
+This time we don't use `-print0` with `find`, since we transform the newlines to null terminator characters later.
+
+The `sed` command takes each line from `find`, which will be a file name, and adds a new line with the file name plus a `-compressed` suffix, so if `find` outputs the following files:
+
+```bash
+hello.jpg
+world.jpg
+foo.jpg
+```
+
+The output from `sed` will be this:
+
+```bash
+hello.jpg
+hello-compressed.jpg
+world.jpg
+world-compressed.jpg
+foo.jpg
+foo-compressed.jpg
+```
+
+The `sed` command works by capturing two parts of the input string using brackets: `^(.*)` captures zero or more characters from the start (`^`) of the line up until `(\.jpg)$`, which is the extension at the end (`$`) of the string. These are then used in the replacement part of the sed command: The `\0` is the whole of the original input line, the `\1` is whatever got captured in `(.*)` and the `\2` is whatever got captured in `(\.jpg)`. The second capture is not strictly necessary since it would always be `.jpg`, but if we wanted to do something more fancy like `(\.jpe?g)` to match either `jpg` or `jpeg` then it would be needed.
+
+We then use `tr` to transform all the newlines into null terminator characters which `xargs` will use to separate each argument. The final `xargs` call is more-or-less the same as before, except that we now use two arguments for each command line that is executed (`-n 2`), and obviously the command being executed is now `guetzli`.
+
+If you run this in a directory with JPEG files they should get compressed into files with a `-compressed.jpg` suffix, in parallel.
+
+### One Final Hint 
+
+Since Linux commands tend to be silent by default, it can sometimes be hard to know exactly what is being run by `xargs`. Passing it the `--verbose` option makes it print each command line that it is executing to standard error, so you can see exactly what arguments are being passed to each command line.
