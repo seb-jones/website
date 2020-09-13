@@ -8,7 +8,7 @@ excerpt: "How to use xargs to run the same command with different arguments in p
 tags: ['blog', 'BASH', 'Scripting', 'Linux']
 ---
 
-Many common shell commands on Linux only run in a single thread - meaning that if you want to run that command many times with different arguments, they have to be executed one-after-the-other (in *serial*), rather than executing multiple instances of the command at the same time (in *parallel*). Since multi-core processors are now a given on modern computers, running these commands in parallel can offer a significant speed boost. This can be achieved using `xargs`.
+Many common shell commands on Linux only run in a single thread - meaning that if you want to run that command many times with different arguments, they usually have to be executed one-after-the-other (in *serial*), rather than executing multiple instances of the command at the same time (in *parallel*). Since multi-core processors are now a given on modern computers, running these commands in parallel can be a big time-saver. This can be achieved using `xargs`.
 
 ### Basic Usage
 
@@ -61,11 +61,11 @@ find . -maxdepth 1 -name '*.jpg' | \
     xargs --verbose -0 -P 0 -n 2 guetzli
 ```
 
-This time we don't use `-print0` with `find`, since we transform the newlines to null terminator characters later.
+This time we don't use `-print0` with `find`, since we transform the newlines into null terminator characters later.
 
 The `sed` command takes each line from `find`, which will be a file name, and adds a new line with the file name plus a `-compressed` suffix, so if `find` outputs the following files:
 
-```bash
+```text
 hello.jpg
 world.jpg
 foo.jpg
@@ -73,7 +73,7 @@ foo.jpg
 
 The output from `sed` will be this:
 
-```bash
+```text
 hello.jpg
 hello-compressed.jpg
 world.jpg
@@ -82,7 +82,7 @@ foo.jpg
 foo-compressed.jpg
 ```
 
-The `sed` command works by capturing two parts of the input string using brackets: `^(.*)` captures zero or more characters from the start (`^`) of the line up until `(\.jpg)$`, which is the extension at the end (`$`) of the string. These are then used in the replacement part of the sed command: The `\0` is the whole of the original input line, the `\1` is whatever got captured in `(.*)` and the `\2` is whatever got captured in `(\.jpg)`. The second capture is not strictly necessary since it would always be `.jpg`, but if we wanted to do something more fancy like `(\.jpe?g)` to match either `jpg` or `jpeg` then it would be needed.
+The `sed` command is a substition, specified by `s/pattern/replacement/g`, that works by capturing two parts of the input string using brackets: `^(.*)` captures zero or more characters from the start (`^`) of the line up until `(\.jpg)$`, which is the extension at the end (`$`) of the string. These are then used in the replacement part of the sed command: The `\0` is the whole of the original input line, the `\1` is whatever got captured in `(.*)` and the `\2` is whatever got captured in `(\.jpg)`. The second capture is not strictly necessary since it would always be `.jpg`, but if we wanted to do something more fancy like `(\.jpe?g)` to match either `jpg` or `jpeg` then it would be needed.
 
 We then use `tr` to transform all the newlines into null terminator characters which `xargs` will use to separate each argument. The final `xargs` call is more-or-less the same as before, except that we now use two arguments for each command line that is executed (`-n 2`), and obviously the command being executed is now `guetzli`.
 
