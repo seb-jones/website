@@ -45,7 +45,12 @@
 }
         </style>
 
+        <!-- Alpine JS -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+        <!-- ToastedJS -->
+        <link rel="stylesheet" href="https://unpkg.com/toastedjs/dist/toasted.min.css">
+        <script src="https://unpkg.com/toastedjs/dist/toasted.min.js"></script>
     </head>
 
     <body class="bg-black text-white font-display">
@@ -60,7 +65,7 @@
                         <li class="text-lg">
                             <a @click.prevent="screen = item"
                                x-text="item"
-                               class="no-underline text-white font-normal"
+                               class="no-underline select-none text-white font-normal"
                                :class="(screen === item) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
                                >
                             </a>
@@ -76,7 +81,7 @@
                         <template x-for="(item, index) in sidebarItems" :key="index">
                             <li class="text-lg my-4">
                                 <a x-text="item"
-                                   class="cursor-pointer no-underline text-white font-normal"
+                                   class="cursor-pointer no-underline select-none text-white font-normal"
                                    >
                                 </a>
                             </li>
@@ -85,7 +90,8 @@
 
                     <div class="text-center flex flex-col">
                         <p>Star Date: 42187.1</p>
-                        <a class="cursor-pointer text-xl text-red-100 bg-red-900 p-2 rounded no-underline">Next Turn</a>
+                        <a @click.prevent="nextTurn()"
+                           class="cursor-pointer text-xl text-red-100 bg-red-900 p-2 rounded no-underline select-none">Next Turn</a>
                     </div>
                 </div>
             </div>
@@ -130,6 +136,11 @@
         </div>
 
         <script>
+            var toasted = new Toasted({
+                position: 'bottom-right',
+                duration: 4000,
+            });
+
             function data() {
                 return {
                     screen: 'Intel',
@@ -163,6 +174,10 @@
                 return 'border-l border-t border-teal-200 ' + 
                     ((i % 10 === 0) ? 'border-r' : 'border-r-0') + ' ' +
                     ((i > 90) ? 'border-b' : 'border-b-0');
+            }
+
+            function nextTurn() {
+                toasted.show('Did summin')
             }
         </script>
     </body>
