@@ -36,7 +36,7 @@
     background-color: transparent;
 }
 
-.quadrant-sector:hover {
+.quadrant-sector-hover:hover {
     background-color: rgba(45, 55, 72, 0.75);
 }
 
@@ -103,11 +103,11 @@
                     <div class="p-4 w-full h-full">
                         <div class="quadrant w-full h-full">
                             <template x-for="i in 144" :key="i">
-                                <div class="quadrant-sector border-teal-300 text-teal-300 items-center text-center select-none"
+                                <div class="quadrant-sector border-teal-300 text-teal-300 flex items-center select-none"
                                      :class="quadrantBorderClasses(i)"
                                      >
                                      <p x-text="quadrantText(i)"
-                                        class="font-monospace text-sm m-0"
+                                        class="font-monospace text-base m-0"
                                      ></p>
                                 </div>
                             </template>
@@ -175,11 +175,19 @@
             }
 
             function quadrantBorderClasses(i) {
-                if (i <= 13 || i > 132 || (i % 12 === 0) || ((i - 1) % 12 === 0)) {
+                if (i <= 12) {
+                    return 'flex-col border-0';
+                }
+
+                if ((i - 1) % 12 === 0) {
+                    return 'justify-end p-2';
+                }
+
+                if (i > 132 || (i % 12 === 0)) {
                     return 'border-0';
                 }
                 
-                return 'border-l border-t border-teal-200 ' + 
+                return 'quadrant-sector-hover border-l border-t border-teal-200 ' + 
                     (((i + 1) % 12 === 0) ? 'border-r' : 'border-r-0') + ' ' +
                     ((i > 120) ? 'border-b' : 'border-b-0');
             }
