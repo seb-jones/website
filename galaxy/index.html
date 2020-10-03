@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>Galaxy</title>
+        <title>Galactic Imperator</title>
 
         <link rel="stylesheet" href="/app.css" type="text/css" media="screen" charset="utf-8">
 
@@ -16,6 +16,18 @@
 .quadrant {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+    background-image: url('/images/quadrant-fs8.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.quadrant-sector {
+    background-color: transparent;
+}
+
+.quadrant-sector:hover {
+    background-color: rgba(45, 55, 72, 0.75);
 }
         </style>
 
@@ -25,7 +37,7 @@
     <body class="bg-black text-white">
         <div class="page h-screen" x-data="data()">
             <!-- Title -->
-            <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap py-4 px-12 text-gray-900 bg-yellow-300">Galaxy of Meep</h1>
+            <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap py-4 px-12 text-gray-900 bg-yellow-300">Galactic Imperator</h1>
 
             <!-- Top Bar -->
             <div class="row-start-1 row-end-2 col-start-2 col-end-3 bg-gray-700">
@@ -72,7 +84,9 @@
                 <template x-if="screen === 'Quadrant'">
                     <div class="quadrant w-full h-full">
                         <template x-for="i in 100" :key="i">
-                            <div class="bg-gray-900"></div>
+                            <div class="quadrant-sector border-teal-200"
+                                 :class="quadrantBorderClasses(i)"
+                                ></div>
                         </template>
                     </div>
                 </template>
@@ -113,6 +127,12 @@
                         'Party',
                     ],
                 };
+            }
+
+            function quadrantBorderClasses(i) {
+                return 'border-l border-t border-teal-200 ' + 
+                    ((i % 10 === 0) ? 'border-r' : 'border-r-0') + ' ' +
+                    ((i > 90) ? 'border-b' : 'border-b-0');
             }
         </script>
     </body>
