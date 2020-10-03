@@ -25,7 +25,7 @@
 
 .quadrant {
     display: grid;
-    grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+    grid-template: 1.5rem repeat(10, 1fr) 1.5rem / 1.5rem repeat(10, 1fr) 1.5rem;
     background-image: url('/images/quadrant-fs8.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -102,10 +102,14 @@
                 <template x-if="screen === 'Quadrant'">
                     <div class="p-4 w-full h-full">
                         <div class="quadrant w-full h-full">
-                            <template x-for="i in 100" :key="i">
-                                <div class="quadrant-sector border-teal-200"
+                            <template x-for="i in 144" :key="i">
+                                <div class="quadrant-sector border-teal-300 text-teal-300 items-center text-center select-none"
                                      :class="quadrantBorderClasses(i)"
-                                     ></div>
+                                     >
+                                     <p x-text="quadrantText(i)"
+                                        class="font-monospace text-sm m-0"
+                                     ></p>
+                                </div>
                             </template>
                         </div>
                     </div>
@@ -143,7 +147,7 @@
 
             function data() {
                 return {
-                    screen: 'Intel',
+                    screen: 'Quadrant',
 
                     topbarItems: [
                         'Quadrant',
@@ -171,9 +175,25 @@
             }
 
             function quadrantBorderClasses(i) {
+                if (i <= 13 || i > 132 || (i % 12 === 0) || ((i - 1) % 12 === 0)) {
+                    return 'border-0';
+                }
+                
                 return 'border-l border-t border-teal-200 ' + 
-                    ((i % 10 === 0) ? 'border-r' : 'border-r-0') + ' ' +
-                    ((i > 90) ? 'border-b' : 'border-b-0');
+                    (((i + 1) % 12 === 0) ? 'border-r' : 'border-r-0') + ' ' +
+                    ((i > 120) ? 'border-b' : 'border-b-0');
+            }
+
+            function quadrantText(i) {
+                if (i >= 2 && i <= 11) {
+                    return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(i - 2);
+                }
+
+                if (i > 1 && i < 132 && (i - 1) % 12 === 0) {
+                    return Math.floor(i / 12);
+                }
+
+                return '';
             }
 
             function nextTurn() {
