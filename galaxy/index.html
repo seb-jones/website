@@ -5,9 +5,19 @@
         <meta name="viewport" content="width=device-width" />
         <title>Galactic Imperator</title>
 
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="/app.css" type="text/css" media="screen" charset="utf-8">
 
         <style type="text/css" media="screen">
+.font-display {
+    font-family: 'Audiowide', sans-serif;
+}
+
+.font-monospace {
+    font-family: 'Space Mono', monospace;
+}
+
 .page {
     display: grid;
     grid-template: auto 1fr / auto 1fr;
@@ -29,12 +39,16 @@
 .quadrant-sector:hover {
     background-color: rgba(45, 55, 72, 0.75);
 }
+
+.list-style-dash {
+    list-style-type: "- ";
+}
         </style>
 
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     </head>
 
-    <body class="bg-black text-white">
+    <body class="bg-black text-white font-display">
         <div class="page h-screen" x-data="data()">
             <!-- Title -->
             <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap py-4 px-12 text-gray-900 bg-yellow-300">Galactic Imperator</h1>
@@ -77,30 +91,39 @@
             </div>
 
             <!-- Main Screen -->
-            <div class="row-span-1 overflow-y-auto p-4 w-full h-full">
+            <div class="row-span-1 overflow-y-auto w-full h-full">
                 <!-- Quadrant Screen -->
                 <template x-if="screen === 'Quadrant'">
-                    <div class="quadrant w-full h-full">
-                        <template x-for="i in 100" :key="i">
-                            <div class="quadrant-sector border-teal-200"
-                                 :class="quadrantBorderClasses(i)"
-                                ></div>
-                        </template>
+                    <div class="p-4 w-full h-full">
+                        <div class="quadrant w-full h-full">
+                            <template x-for="i in 100" :key="i">
+                                <div class="quadrant-sector border-teal-200"
+                                     :class="quadrantBorderClasses(i)"
+                                     ></div>
+                            </template>
+                        </div>
                     </div>
                 </template>
 
                 <!-- Intel Screen -->
                 <template x-if="screen === 'Intel'">
-                    <div>
-                        <p class="mt-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. </p>
-
-                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. </p>
-
-                        <p>Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. </p>
-
-                        <p>Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. </p>
-
-                        <p>Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede. Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. </p>
+                    <div class="grid grid-cols-2 grid-rows-1 p-8 font-monospace">
+                        <div class="pr-8">
+                            <h2 class="text-xl text-bold mb-4">Reports</h2>
+                            <ul class="pl-4 list-style-dash">
+                                <template x-for="(item, index) in reports" :key="item">
+                                    <li x-text="item" class="mb-4"></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="pl-8">
+                            <h2 class="text-xl text-bold mb-4">Orders</h2>
+                            <ul class="pl-4 list-style-dash">
+                                <template x-for="(item, index) in orders" :key="item">
+                                    <li x-text="item" class="mb-4"></li>
+                                </template>
+                            </ul>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -109,7 +132,7 @@
         <script>
             function data() {
                 return {
-                    screen: 'Quadrant',
+                    screen: 'Intel',
 
                     topbarItems: [
                         'Quadrant',
@@ -123,6 +146,15 @@
                         'To',
                         'The',
                         'Party',
+                    ],
+
+                    reports: [
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.',
+                        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.',
+                    ],
+                    orders: [
+                        'Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.',
+                        'Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper.',
                     ],
                 };
             }
