@@ -54,19 +54,19 @@
     </head>
 
     <body class="bg-black text-white font-display">
-        <div class="page h-screen" x-data="data()">
+        <div class="page h-screen" x-data="global">
             <!-- Title -->
             <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap py-4 px-12 text-gray-900 bg-gray-200">Galactic Imperator</h1>
 
             <!-- Top Bar -->
             <div class="row-start-1 row-end-2 col-start-2 col-end-3 bg-gray-700">
                 <ul class="flex justify-evenly w-full h-full items-center">
-                    <template x-for="(item, index) in topbarItems" :key="index">
+                    <template x-for="(item, index) in data.topbarItems" :key="index">
                         <li class="text-lg">
-                            <a @click.prevent="screen = item"
+                            <a @click.prevent="data.screen = item"
                                x-text="item"
                                class="no-underline select-none text-white font-normal"
-                               :class="(screen === item) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
+                               :class="(data.screen === item) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
                                >
                             </a>
                         </li>
@@ -78,7 +78,7 @@
             <div class="row-span-1 p-4 bg-gray-800">
                 <div class="flex flex-col justify-between h-full">
                     <ul>
-                        <template x-for="(item, index) in sidebarItems" :key="index">
+                        <template x-for="(item, index) in data.sidebarItems" :key="index">
                             <li class="text-lg my-4">
                                 <a x-text="item"
                                    class="cursor-pointer no-underline select-none text-white font-normal"
@@ -89,8 +89,8 @@
                     </ul>
 
                     <div class="text-center flex flex-col">
-                        <p>Star Date: 42187.1</p>
-                        <a @click.prevent="nextTurn()"
+                        <p x-text="starDateText()"></p>
+                        <a @click.prevent="data = nextTurn(data)"
                            class="cursor-pointer text-xl text-red-100 hover:text-yellow-300 bg-red-900 hover:bg-red-800 p-2 rounded no-underline select-none">Next Turn</a>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
             <!-- Main Screen -->
             <div class="row-span-1 overflow-y-auto w-full h-full">
                 <!-- Quadrant Screen -->
-                <template x-if="screen === 'Quadrant'">
+                <template x-if="data.screen === 'Quadrant'">
                     <div class="p-4 w-full h-full">
                         <div class="quadrant w-full h-full">
                             <template x-for="i in 144" :key="i">
@@ -116,12 +116,12 @@
                 </template>
 
                 <!-- Intel Screen -->
-                <template x-if="screen === 'Intel'">
+                <template x-if="data.screen === 'Intel'">
                     <div class="grid grid-cols-2 grid-rows-1 p-8 font-monospace">
                         <div class="pr-8">
                             <h2 class="text-xl text-bold mb-4">Reports</h2>
                             <ul class="pl-4 list-style-dash">
-                                <template x-for="(item, index) in reports" :key="item">
+                                <template x-for="(item, index) in data.reports" :key="item">
                                     <li x-text="item" class="mb-4"></li>
                                 </template>
                             </ul>
@@ -129,7 +129,7 @@
                         <div class="pl-8">
                             <h2 class="text-xl text-bold mb-4">Orders</h2>
                             <ul class="pl-4 list-style-dash">
-                                <template x-for="(item, index) in orders" :key="item">
+                                <template x-for="(item, index) in data.orders" :key="item">
                                     <li x-text="item" class="mb-4"></li>
                                 </template>
                             </ul>
@@ -140,73 +140,82 @@
         </div>
 
         <script>
-            var toasted = new Toasted({
-                position: 'bottom-right',
-                duration: 4000,
-            });
+var toasted = new Toasted({
+    position: 'bottom-right',
+    duration: 4000,
+});
 
-            function data() {
-                return {
-                    screen: 'Quadrant',
+var global = {
+    data: {
+        starDate: 47501.4,
 
-                    topbarItems: [
-                        'Quadrant',
-                        'Intel',
-                        'War Room',
-                        'Treasury',
-                    ],
+        screen: 'Quadrant',
 
-                    sidebarItems: [
-                        'Welcome',
-                        'To',
-                        'The',
-                        'Party',
-                    ],
+        topbarItems: [
+            'Quadrant',
+            'Intel',
+            'War Room',
+            'Treasury',
+        ],
 
-                    reports: [
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.',
-                        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.',
-                    ],
-                    orders: [
-                        'Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.',
-                        'Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper.',
-                    ],
-                };
-            }
+        sidebarItems: [
+            'Welcome',
+            'To',
+            'The',
+            'Party',
+        ],
 
-            function quadrantBorderClasses(i) {
-                if (i <= 12) {
-                    return 'flex-col border-0';
-                }
+        reports: [
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.',
+            'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.',
+        ],
+        orders: [
+            'Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.',
+            'Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper.',
+        ],
+    }
+};
 
-                if ((i - 1) % 12 === 0) {
-                    return 'justify-end p-2';
-                }
+function quadrantBorderClasses(i) {
+    if (i <= 12) {
+        return 'flex-col border-0';
+    }
 
-                if (i > 132 || (i % 12 === 0)) {
-                    return 'border-0';
-                }
-                
-                return 'quadrant-sector-hover border-l border-t border-teal-200 ' + 
-                    (((i + 1) % 12 === 0) ? 'border-r' : 'border-r-0') + ' ' +
-                    ((i > 120) ? 'border-b' : 'border-b-0');
-            }
+    if ((i - 1) % 12 === 0) {
+        return 'justify-end p-2';
+    }
 
-            function quadrantText(i) {
-                if (i >= 2 && i <= 11) {
-                    return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(i - 2);
-                }
+    if (i > 132 || (i % 12 === 0)) {
+        return 'border-0';
+    }
 
-                if (i > 1 && i < 132 && (i - 1) % 12 === 0) {
-                    return Math.floor(i / 12);
-                }
+    return 'quadrant-sector-hover border-l border-t border-teal-200 ' + 
+        (((i + 1) % 12 === 0) ? 'border-r' : 'border-r-0') + ' ' +
+        ((i > 120) ? 'border-b' : 'border-b-0');
+}
 
-                return '';
-            }
+function quadrantText(i) {
+    if (i >= 2 && i <= 11) {
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(i - 2);
+    }
 
-            function nextTurn() {
-                toasted.show('Did summin')
-            }
+    if (i > 1 && i < 132 && (i - 1) % 12 === 0) {
+        return Math.floor(i / 12);
+    }
+
+    return '';
+}
+
+function starDateText() {
+    return 'Star Date: ' + global.data.starDate.toFixed(1);
+}
+
+function nextTurn(data) {
+    toasted.success('Did summin')
+    data.starDate += .1;
+    data.screen = 'Intel';
+    return data;
+}
         </script>
     </body>
 </html>
