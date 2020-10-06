@@ -76,23 +76,27 @@
 
             <!-- Side Bar -->
             <div class="row-span-1 p-4 bg-gray-800">
-                <div class="flex flex-col justify-between h-full">
-                    <ul>
-                        <template x-for="(item, index) in data.sidebarItems" :key="index">
-                            <li class="text-lg my-4">
-                                <a x-text="item"
-                                   class="cursor-pointer no-underline select-none text-white font-normal"
-                                   >
-                                </a>
-                            </li>
-                        </template>
-                    </ul>
+                <div class="flex flex-col-reverse justify-between h-full">
+                    <!-- <ul> -->
+                    <!--     <template x-for="(item, index) in data.sidebarItems" :key="index"> -->
+                    <!--         <li class="text-lg my-4"> -->
+                    <!--             <a x-text="item" -->
+                    <!--                class="cursor-pointer no-underline select-none text-white font-normal" -->
+                    <!--                > -->
+                    <!--             </a> -->
+                    <!--         </li> -->
+                    <!--     </template> -->
+                    <!-- </ul> -->
 
                     <div class="text-center flex flex-col">
                         <p x-text="starDateText()"></p>
                         <a @click.prevent="data = nextTurn(data)"
                            class="cursor-pointer text-xl text-red-100 hover:text-yellow-300 bg-red-900 hover:bg-red-800 p-2 rounded no-underline select-none">Next Turn</a>
                     </div>
+
+                    <template x-if="data.highlightedSectorIndex !== null">
+                        <p x-text="sectorText(data.sectors[data.highlightedSectorIndex])"></p>
+                    </template>
                 </div>
             </div>
 
@@ -105,6 +109,7 @@
                             <template x-for="i in 144" :key="i">
                                 <div class="quadrant-sector border-teal-300 text-teal-300 flex items-center select-none"
                                      :class="quadrantBorderClasses(i)"
+                                     @mouseover="data.highlightedSectorIndex = gridIndexToSectorIndex(i)"
                                      >
                                      <p x-text="quadrantText(i)"
                                         class="font-monospace text-base m-0"
@@ -145,11 +150,17 @@ var toasted = new Toasted({
     duration: 4000,
 });
 
+const gridSize = 12;
+const quadrantSize = 10;
+
 var global = {
     data: {
         starDate: 47501.4,
 
         screen: 'Quadrant',
+        sectors: [],
+
+        highlightedSectorIndex: null,
 
         topbarItems: [
             'Quadrant',
@@ -176,31 +187,39 @@ var global = {
     }
 };
 
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+for (y = 0; y < 10; y++) {
+    for (x = 0; x < 10; x++) {
+        global.data.sectors.push(alphabet.charAt(x) + (y + 1));
+    }
+}
+
 function quadrantBorderClasses(i) {
-    if (i <= 12) {
+    if (i <= gridSize) {
         return 'flex-col border-0';
     }
 
-    if ((i - 1) % 12 === 0) {
+    if ((i - 1) % gridSize === 0) {
         return 'justify-end p-2';
     }
 
-    if (i > 132 || (i % 12 === 0)) {
+    if (i > 132 || (i % gridSize === 0)) {
         return 'border-0';
     }
 
     return 'quadrant-sector-hover border-l border-t border-teal-200 ' + 
-        (((i + 1) % 12 === 0) ? 'border-r' : 'border-r-0') + ' ' +
+        (((i + 1) % gridSize === 0) ? 'border-r' : 'border-r-0') + ' ' +
         ((i > 120) ? 'border-b' : 'border-b-0');
 }
 
 function quadrantText(i) {
     if (i >= 2 && i <= 11) {
-        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(i - 2);
+        return alphabet.charAt(i - 2);
     }
 
-    if (i > 1 && i < 132 && (i - 1) % 12 === 0) {
-        return Math.floor(i / 12);
+    if (i > 1 && i < 132 && (i - 1) % gridSize === 0) {
+        return Math.floor(i / gridSize);
     }
 
     return '';
@@ -215,6 +234,21 @@ function nextTurn(data) {
     data.starDate += .1;
     data.screen = 'Intel';
     return data;
+}
+
+function gridIndexToSectorIndex(i) {
+    var y = Math.floor(i / gridSize);
+    var x = i - (y * gridSize) - 1;
+
+    if (x < 1 || x > 10 || y < 1 || y > 10) {
+        return null;
+    }
+
+    return (y - 1) * quadrantSize + (x - 1);
+}
+
+function sectorText(sector) {
+    return "Sector: " + sector;
 }
         </script>
     </body>
