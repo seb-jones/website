@@ -152,6 +152,8 @@ var toasted = new Toasted({
 
 const gridSize = 12;
 const quadrantSize = 10;
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const sectorNames = ["Seppius","Orcivius","Tuccius","Sicinius","Placidius","Poppaeus","Pacilius","Terentilius","Aquinius","Bantius","Apronius","Manlius","Icilius","Matius","Proculeius","Petillius","Saenius","Atrius","Gavius","Servaeus","Arellius","Thorius","Gratidius","Hirrius","Rufinius","Laenius","Hirtuleius","Scuilius","Numisius","Oppidius","Tarpeius","Helvidius","Avianus","Herennius","Papius","Crassitius","Sabinius","Bruttius","Abronius","Pedanius","Faenius","Pleminius","Arminius","Norbanus","Pontilius","Didius","Lepidius","Hirtius","Lafrenius","Aebutius","Decimius","Sosius","Tarquinius","Mallius","Visellius","Cordius","Seccius","Caerellius","Dellius","Naevius","Falcidius","Orbilius","Genucius","Sepunius","Percennius","Sentius","Coelius","Duronius","Novellius","Gratius","Furnius","Statius","Popaedius","Condetius","Junius","Betucius","Papirius","Socellius","Ofanius","Menius","Caecius","Vitrasius","Pompilius","Fulginas","Ampius","Juventius","Sabucius","Postumulenus","Pollius","Atius","Caesius","Quartinius","Herennuleius","Hortensius","Gabinius","Ceionius","Bellius","Pomptinus","Mamercius","Memmius"];
 
 var global = {
     data: {
@@ -187,12 +189,10 @@ var global = {
     }
 };
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-for (y = 0; y < 10; y++) {
-    for (x = 0; x < 10; x++) {
-        global.data.sectors.push(alphabet.charAt(x) + (y + 1));
-    }
+for (i = 0; i < quadrantSize * quadrantSize; i++) {
+    global.data.sectors.push({
+        name: sectorNames[i],
+    });
 }
 
 function quadrantBorderClasses(i) {
@@ -247,8 +247,15 @@ function gridIndexToSectorIndex(i) {
     return (y - 1) * quadrantSize + (x - 1);
 }
 
+function sectorIndexToSectorCoordinates(i) {
+    var y = Math.floor(i / quadrantSize);
+    var x = i - (y * quadrantSize) - 1;
+
+    return { x: x, y: y };
+}
+
 function sectorText(sector) {
-    return "Sector: " + sector;
+    return "Sector: " + sector.name;
 }
         </script>
     </body>
