@@ -95,7 +95,7 @@
                     </div>
 
                     <template x-if="data.highlightedSectorIndex !== null">
-                        <p x-text="sectorText(data.sectors[data.highlightedSectorIndex])"></p>
+                        <p x-text="sectorText(data.highlightedSectorIndex)"></p>
                     </template>
                 </div>
             </div>
@@ -249,13 +249,15 @@ function gridIndexToSectorIndex(i) {
 
 function sectorIndexToSectorCoordinates(i) {
     var y = Math.floor(i / quadrantSize);
-    var x = i - (y * quadrantSize) - 1;
+    var x = i - (y * quadrantSize);
 
-    return { x: x, y: y };
+    return { letter: alphabet.charAt(x), number: y + 1 };
 }
 
-function sectorText(sector) {
-    return "Sector: " + sector.name;
+function sectorText(i) {
+    var sector = global.data.sectors[i];
+    var coords = sectorIndexToSectorCoordinates(i);
+    return "Sector: " + sector.name + " (" + coords.letter + ", " + coords.number + ")";
 }
         </script>
     </body>
