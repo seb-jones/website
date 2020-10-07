@@ -94,7 +94,7 @@
                            class="cursor-pointer text-xl text-red-100 hover:text-yellow-300 bg-red-900 hover:bg-red-800 p-2 rounded no-underline select-none">Next Turn</a>
                     </div>
 
-                    <template x-if="data.highlightedSectorIndex !== null">
+                    <template x-if="data.screen === 'Quadrant' && data.viewingSectorIndex === null && data.highlightedSectorIndex !== null">
                         <p x-text="sectorText(data.highlightedSectorIndex)"></p>
                     </template>
                 </div>
@@ -104,19 +104,35 @@
             <div class="row-span-1 overflow-y-auto w-full h-full">
                 <!-- Quadrant Screen -->
                 <template x-if="data.screen === 'Quadrant'">
-                    <div class="p-4 w-full h-full">
-                        <div class="quadrant w-full h-full">
-                            <template x-for="i in 144" :key="i">
-                                <div class="quadrant-sector border-teal-300 text-teal-300 flex items-center select-none"
-                                     :class="quadrantBorderClasses(i)"
-                                     @mouseover="data.highlightedSectorIndex = gridIndexToSectorIndex(i)"
-                                     >
-                                     <p x-text="quadrantText(i)"
-                                        class="font-monospace text-base m-0"
-                                     ></p>
+                    <div class="w-full h-full">
+                        <!-- Map -->
+                        <template x-if="data.viewingSectorIndex === null">
+                            <div class="p-4 w-full h-full">
+                                <div class="quadrant w-full h-full">
+                                    <template x-for="i in 144" :key="i">
+                                        <div class="quadrant-sector border-teal-300 text-teal-300 flex items-center select-none"
+                                             :class="quadrantBorderClasses(i)"
+                                             @mouseover="data.highlightedSectorIndex = gridIndexToSectorIndex(i)"
+                                             @click="data.viewingSectorIndex = i"
+                                             >
+                                             <p x-text="quadrantText(i)"
+                                                class="font-monospace text-base m-0"
+                                                ></p>
+                                        </div>
+                                    </template>
                                 </div>
-                            </template>
-                        </div>
+                            </div>
+                        </template>
+
+                        <!-- Sector View -->
+                        <template x-if="data.viewingSectorIndex !== null">
+                            <div class="p-8">
+                                <h2 x-text="sectorText(data.viewingSectorIndex)"
+                                    class="text-xl"
+                                    >
+                                </h2>
+                            </div>
+                        </template>
                     </div>
                 </template>
 
@@ -163,6 +179,7 @@ var global = {
         sectors: [],
 
         highlightedSectorIndex: null,
+        viewingSectorIndex: null,
 
         topbarItems: [
             'Quadrant',
