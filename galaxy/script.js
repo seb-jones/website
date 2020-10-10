@@ -114,3 +114,12 @@ function sectorText(i) {
     return "Sector: " + sector.name + " (" + coords.letter + ", " + coords.number + ")";
 }
         
+function setScreen(data, screen) {
+    data.screen = screen;
+
+    if (screen === "Quadrant") {
+        data.viewingSectorIndex = null;
+    }
+
+    return data;
+}

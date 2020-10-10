@@ -66,7 +66,7 @@
                 <ul class="flex justify-evenly w-full h-full items-center">
                     <template x-for="(item, index) in data.topbarItems" :key="index">
                         <li class="text-lg">
-                            <a @click.prevent="data.screen = item"
+                            <a @click.prevent="data = setScreen(data, item)"
                                x-text="item"
                                class="no-underline select-none text-white font-normal"
                                :class="(data.screen === item) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
