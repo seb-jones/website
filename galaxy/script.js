@@ -12,25 +12,20 @@ var global = {
     data: {
         starDate: 47501.4,
 
-        screen: 'Quadrant',
+        screen: {
+            current: 'Quadrant',
+            screens: {
+                'Quadrant': {
+                    highlightedSectorIndex: null,
+                    viewingSectorIndex: null,
+                },
+                'Intel': {},
+                'War Room': {},
+                'Treasury': {},
+            },
+        },
+
         sectors: [],
-
-        highlightedSectorIndex: null,
-        viewingSectorIndex: null,
-
-        topbarItems: [
-            'Quadrant',
-            'Intel',
-            'War Room',
-            'Treasury',
-        ],
-
-        sidebarItems: [
-            'Welcome',
-            'To',
-            'The',
-            'Party',
-        ],
 
         reports: [
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.',
@@ -108,18 +103,49 @@ function sectorIndexToSectorCoordinates(i) {
     return { letter: alphabet.charAt(x), number: y + 1 };
 }
 
-function sectorText(i) {
+function sectorText(screen) {
+    var i = screen.screens["Quadrant"].highlightedSectorIndex;
     var sector = global.data.sectors[i];
     var coords = sectorIndexToSectorCoordinates(i);
+
     return "Sector: " + sector.name + " (" + coords.letter + ", " + coords.number + ")";
 }
         
-function setScreen(data, screen) {
-    data.screen = screen;
+function setScreen(screen, name) {
+    screen.current = name;
 
-    if (screen === "Quadrant") {
-        data.viewingSectorIndex = null;
+    if (name === "Quadrant") {
+        screen.screens[name].viewingSectorIndex = null;
+        screen.screens[name].highlightedSectorIndex = null;
     }
 
-    return data;
+    return screen;
+}
+
+function viewingQuadrantScreen(screen) {
+    return screen.current === "Quadrant" && !screen.screens["Quadrant"].viewingSectorIndex;
+}
+
+function viewingSectorScreen(screen) {
+    return screen.current === "Quadrant" && screen.screens["Quadrant"].viewingSectorIndex;
+}
+
+function sectorHighlighted(screen) {
+    return !!screen.screens["Quadrant"].highlightedSectorIndex;
+}
+
+function setQuadrantHighlightedSector(screen, i) {
+    screen.screens["Quadrant"].highlightedSectorIndex = i;
+    return screen;
+}
+
+function setQuadrantViewingSector(screen, i) {
+    screen.screens["Quadrant"].viewingSectorIndex = i;
+    return screen;
+}
+
+function backToQuadrantScreen(screen) {
+    screen.screens["Quadrant"].viewingSectorIndex = null;
+    screen.screens["Quadrant"].highlightedSectorIndex = null;
+    return screen;
 }
