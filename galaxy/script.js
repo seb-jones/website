@@ -39,8 +39,17 @@ var global = {
 };
 
 for (i = 0; i < quadrantSize * quadrantSize; i++) {
+    var owner = null;
+    
+    if ([0, 1, 10].includes(i)) {
+        owner = "Player";
+    } else if ([89, 98, 99].includes(i)) {
+        owner = "Computer";
+    }
+
     global.data.sectors.push({
         name: sectorNames[i],
+        owner: owner,
     });
 }
 
@@ -103,12 +112,23 @@ function sectorIndexToSectorCoordinates(i) {
     return { letter: alphabet.charAt(x), number: y + 1 };
 }
 
-function sectorText(screen) {
+function sectorName(screen) {
     var i = screen.screens["Quadrant"].highlightedSectorIndex;
     var sector = global.data.sectors[i];
     var coords = sectorIndexToSectorCoordinates(i);
 
     return "Sector: " + sector.name + " (" + coords.letter + ", " + coords.number + ")";
+}
+
+function sectorOwner(screen) {
+    var i = screen.screens["Quadrant"].highlightedSectorIndex;
+    var sector = global.data.sectors[i];
+
+    if (sector.owner) {
+        return 'Owner: ' + sector.owner;
+    }
+
+    return '';
 }
         
 function setScreen(screen, name) {
@@ -131,7 +151,7 @@ function viewingSectorScreen(screen) {
 }
 
 function sectorHighlighted(screen) {
-    return !!screen.screens["Quadrant"].highlightedSectorIndex;
+    return screen.screens["Quadrant"].highlightedSectorIndex !== null;
 }
 
 function setQuadrantHighlightedSector(screen, i) {

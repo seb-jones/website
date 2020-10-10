@@ -20,7 +20,7 @@
 
 .page {
     display: grid;
-    grid-template: auto 1fr / auto 1fr;
+    grid-template: auto 1fr / 400px 1fr;
 }
 
 .quadrant {
@@ -59,7 +59,7 @@
     <body class="bg-black text-white font-display">
         <div class="page h-screen" x-data="global">
             <!-- Title -->
-            <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap py-4 px-12 text-gray-900 bg-gray-200">Galactic Imperator</h1>
+            <h1 class="row-start-1 row-end-2 col-start-1 col-end-2 text-xl font-black whitespace-no-wrap p-4 text-gray-900 bg-gray-200">Galactic Imperator</h1>
 
             <!-- Top Bar -->
             <div class="row-start-1 row-end-2 col-start-2 col-end-3 bg-gray-700">
@@ -87,7 +87,14 @@
                     </div>
 
                     <template x-if="viewingQuadrantScreen(data.screen) && sectorHighlighted(data.screen)">
-                        <p x-text="sectorText(data.screen)"></p>
+                        <div>
+                            <div>
+                                <p x-text="sectorName(data.screen)"></p>
+                            </div>
+                            <div>
+                                <p x-text="sectorOwner(data.screen)"></p>
+                            </div>
+                        </div>
                     </template>
 
                     <template x-if="viewingSectorScreen(data.screen)">
@@ -124,7 +131,7 @@
                         <!-- Sector View -->
                         <template x-if="viewingSectorScreen(data.screen)">
                             <div class="p-8">
-                                <h2 x-text="sectorText(data.screen)"
+                                <h2 x-text="sectorName(data.screen)"
                                     class="text-xl"
                                     >
                                 </h2>
