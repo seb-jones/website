@@ -164,7 +164,7 @@
                             <h2 class="text-xl text-bold mb-4">Orders</h2>
                             <ul class="pl-4 list-style-dash">
                                 <template x-for="(item, index) in data.orders" :key="item">
-                                    <li x-text="item" class="mb-4"></li>
+                                    <li x-text="orderText(item)" class="mb-4"></li>
                                 </template>
                             </ul>
                         </div>
