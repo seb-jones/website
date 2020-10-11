@@ -67,10 +67,10 @@
                     <template x-for="screenName in Object.keys(data.screen.screens)" :key="screenName">
                         <li class="text-lg">
                             <a @click.prevent="data.screen = setScreen(data.screen, screenName)"
-                               x-text="screenName"
-                               class="no-underline select-none text-white font-normal"
-                               :class="(data.screen.current === screenName) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
-                               >
+                            x-text="screenName"
+                            class="no-underline select-none text-white font-normal"
+                            :class="(data.screen.current === screenName) ? 'text-yellow-300 hover:text-yellow-300 cursor-default' : 'cursor-pointer'"
+                            >
                             </a>
                         </li>
                     </template>
@@ -80,34 +80,54 @@
             <!-- Side Bar -->
             <div class="row-span-1 p-4 bg-gray-800">
                 <div class="flex flex-col-reverse justify-between h-full">
-                    <div class="text-center flex flex-col">
+                    <div class="text-center flex flex-col mt-8">
                         <p x-text="starDateText()"></p>
                         <a @click.prevent="data = nextTurn(data)"
                            class="cursor-pointer text-xl text-red-100 hover:text-yellow-300 bg-red-900 hover:bg-red-800 p-2 rounded no-underline select-none">Next Turn</a>
                     </div>
 
-                    <template x-if="viewingQuadrantScreen(data.screen) && sectorHighlighted(data.screen)">
-                        <div>
+                    <div class="h-full flex flex-col justify-between">
+                        <template x-if="viewingQuadrantScreen(data.screen)">
                             <div>
-                                <p x-text="sectorName(data.screen)"></p>
+                                <template x-if="sectorHighlighted(data.screen)">
+                                    <div>
+                                        <div>
+                                            <p x-text="sectorName(data.screen)"></p>
+                                        </div>
+                                        <div>
+                                            <p x-text="sectorOwner(data.screen)"></p>
+                                        </div>
+                                        <div>
+                                            <p x-text="sectorShips(data.screen)"></p>
+                                        </div>
+
+                                        <template x-if="getQuadrantQueuedOrder(data.screen)">
+                                            <div>
+                                                <p x-text="quadrantQueuedOrderText(data.screen)"></p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
                             </div>
-                            <div>
-                                <p x-text="sectorOwner(data.screen)"></p>
+                        </template>
+
+
+                        <template x-if="!getQuadrantQueuedOrder(data.screen)">
+                            <div class="flex justify-between items-center">
+                                <p class="mr-4">Map Type:</p>
+
+                                <a @click.prevent="data.screen = cycleMapType(data.screen)"
+                                   class="flex-1 text-center cursor-pointer text-xl text-blue-100 hover:text-yellow-300 bg-blue-800 hover:bg-blue-700 p-2 rounded no-underline select-none"
+                                   x-text="mapType(data.screen)"
+                                   >
+                                </a>
                             </div>
-                            <div>
-                                <p x-text="sectorShips(data.screen)"></p>
-                            </div>
-                            <template x-if="getQuadrantQueuedOrder(data.screen)">
-                                <div>
-                                    <p x-text="quadrantQueuedOrderText(data.screen)"></p>
-                                </div>
-                            </template>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
 
                     <template x-if="viewingSectorScreen(data.screen)">
                         <a @click.prevent="data.screen = backToQuadrantScreen(data.screen)"
-                           class="text-center cursor-pointer text-xl text-green-100 hover:text-yellow-300 bg-green-800 hover:bg-green-700 p-2 rounded no-underline select-none">Back to Map</a>
+                              class="text-center cursor-pointer text-xl text-green-100 hover:text-yellow-300 bg-green-800 hover:bg-green-700 p-2 rounded no-underline select-none">Back to Map</a>
                     </template>
                 </div>
             </div>
@@ -124,6 +144,7 @@
                                     <template x-for="i in 144" :key="i">
                                         <div class="quadrant-sector border-teal-300 text-teal-300 flex items-center select-none"
                                              :class="quadrantBorderClasses(i)"
+                                             :style="sectorStyle(data, i)"
                                              @mouseover="data.screen = setQuadrantHighlightedSector(data.screen, gridIndexToSectorIndex(i))"
                                              @click="data.screen = setQuadrantViewingSector(data.screen, i)"
                                              @contextmenu.prevent="data = handleSectorRightClick(data, i)"

@@ -31,6 +31,7 @@ let global = {
                     highlightedSectorIndex: null,
                     viewingSectorIndex: null,
                     queuedOrder: null,
+                    mapType: 'Normal',
                 },
                 'Intel': {},
                 'War Room': {},
@@ -51,6 +52,24 @@ let global = {
 //
 // Functions
 //
+
+function sectorStyle(data, i) {
+    i = gridIndexToSectorIndex(i);
+
+    if (i !== null && mapType(data.screen) === 'Owners') {
+        const sector = data.sectors[i];
+
+        if (sector.owner) {
+            if (sector.owner === 'Player') {
+                return 'background-color: rgba(0, 0, 150, 0.75)';
+            } else if (sector.owner === 'Computer') {
+                return 'background-color: rgba(150, 0, 0, 0.75)';
+            }
+        }
+    }
+
+    return '';
+}
 
 function quadrantBorderClasses(i) {
     if (i <= gridSize) {
@@ -254,6 +273,20 @@ function setQuadrantViewingSector(screen, i) {
 function backToQuadrantScreen(screen) {
     screen.screens["Quadrant"].viewingSectorIndex = null;
     screen.screens["Quadrant"].highlightedSectorIndex = null;
+    return screen;
+}
+
+function mapType(screen) {
+    return screen.screens["Quadrant"].mapType;
+}
+
+function cycleMapType(screen) {
+    if (screen.screens["Quadrant"].mapType === 'Normal') {
+        screen.screens["Quadrant"].mapType = 'Owners';
+    } else {
+        screen.screens["Quadrant"].mapType = 'Normal';
+    }
+
     return screen;
 }
 
