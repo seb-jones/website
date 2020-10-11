@@ -87,9 +87,23 @@ function starDateText() {
 }
 
 function nextTurn(data) {
-    toasted.success('Did summin')
     data.starDate += .1;
-    data.screen = 'Intel';
+
+    // Execute Orders
+    data.orders.forEach(order => {
+        if (order.type === 'ship-move') {
+            const sourceIndex = order.sourceSectorIndex;
+            const destinationIndex = order.destinationSectorIndex;
+
+            data.sectors[destinationIndex].ships += order.ships;
+        }
+    });
+
+    // Add executed orders to reports
+    data.reports = data.orders.map(order => orderText(order));
+
+    data.orders = [];
+
     return data;
 }
 
@@ -145,6 +159,7 @@ function sectorShips(screen) {
 
 function newShipMoveOrder(sectorIndex) {
     return {
+        type: 'ship-move',
         sourceSectorIndex: sectorIndex,
         destinationSectorIndex: null,
         ships: 0,
