@@ -94,6 +94,14 @@
                             <div>
                                 <p x-text="sectorOwner(data.screen)"></p>
                             </div>
+                            <div>
+                                <p x-text="sectorShips(data.screen)"></p>
+                            </div>
+                            <template x-if="getQuadrantQueuedOrder(data.screen)">
+                                <div>
+                                    <p x-text="quadrantQueuedOrderText(data.screen)"></p>
+                                </div>
+                            </template>
                         </div>
                     </template>
 
@@ -118,6 +126,7 @@
                                              :class="quadrantBorderClasses(i)"
                                              @mouseover="data.screen = setQuadrantHighlightedSector(data.screen, gridIndexToSectorIndex(i))"
                                              @click="data.screen = setQuadrantViewingSector(data.screen, i)"
+                                             @contextmenu.prevent="data = handleSectorRightClick(data, i)"
                                              >
                                              <p x-text="quadrantText(i)"
                                                 class="font-monospace text-base m-0"

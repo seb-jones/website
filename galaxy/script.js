@@ -1,14 +1,26 @@
-var toasted = new Toasted({
+//
+// Dependencies
+//
+
+let toasted = new Toasted({
     position: 'bottom-right',
     duration: 4000,
 });
+
+//
+// Constants
+//
 
 const gridSize = 12;
 const quadrantSize = 10;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const sectorNames = ["Seppius","Orcivius","Tuccius","Sicinius","Placidius","Poppaeus","Pacilius","Terentilius","Aquinius","Bantius","Apronius","Manlius","Icilius","Matius","Proculeius","Petillius","Saenius","Atrius","Gavius","Servaeus","Arellius","Thorius","Gratidius","Hirrius","Rufinius","Laenius","Hirtuleius","Scuilius","Numisius","Oppidius","Tarpeius","Helvidius","Avianus","Herennius","Papius","Crassitius","Sabinius","Bruttius","Abronius","Pedanius","Faenius","Pleminius","Arminius","Norbanus","Pontilius","Didius","Lepidius","Hirtius","Lafrenius","Aebutius","Decimius","Sosius","Tarquinius","Mallius","Visellius","Cordius","Seccius","Caerellius","Dellius","Naevius","Falcidius","Orbilius","Genucius","Sepunius","Percennius","Sentius","Coelius","Duronius","Novellius","Gratius","Furnius","Statius","Popaedius","Condetius","Junius","Betucius","Papirius","Socellius","Ofanius","Menius","Caecius","Vitrasius","Pompilius","Fulginas","Ampius","Juventius","Sabucius","Postumulenus","Pollius","Atius","Caesius","Quartinius","Herennuleius","Hortensius","Gabinius","Ceionius","Bellius","Pomptinus","Mamercius","Memmius"];
 
-var global = {
+//
+// Global Data
+//
+
+let global = {
     data: {
         starDate: 47501.4,
 
@@ -18,6 +30,7 @@ var global = {
                 'Quadrant': {
                     highlightedSectorIndex: null,
                     viewingSectorIndex: null,
+                    queuedOrder: null,
                 },
                 'Intel': {},
                 'War Room': {},
@@ -38,20 +51,9 @@ var global = {
     }
 };
 
-for (i = 0; i < quadrantSize * quadrantSize; i++) {
-    var owner = null;
-    
-    if ([0, 1, 10].includes(i)) {
-        owner = "Player";
-    } else if ([89, 98, 99].includes(i)) {
-        owner = "Computer";
-    }
-
-    global.data.sectors.push({
-        name: sectorNames[i],
-        owner: owner,
-    });
-}
+//
+// Functions
+//
 
 function quadrantBorderClasses(i) {
     if (i <= gridSize) {
@@ -95,8 +97,8 @@ function nextTurn(data) {
 }
 
 function gridIndexToSectorIndex(i) {
-    var y = Math.floor(i / gridSize);
-    var x = i - (y * gridSize) - 1;
+    let y = Math.floor(i / gridSize);
+    let x = i - (y * gridSize) - 1;
 
     if (x < 1 || x > 10 || y < 1 || y > 10) {
         return null;
@@ -106,23 +108,26 @@ function gridIndexToSectorIndex(i) {
 }
 
 function sectorIndexToSectorCoordinates(i) {
-    var y = Math.floor(i / quadrantSize);
-    var x = i - (y * quadrantSize);
+    let y = Math.floor(i / quadrantSize);
+    let x = i - (y * quadrantSize);
 
     return { letter: alphabet.charAt(x), number: y + 1 };
 }
 
+function getHighlightedSector(screen) {
+    const i = screen.screens["Quadrant"].highlightedSectorIndex;
+    return global.data.sectors[i];
+}
+
 function sectorName(screen) {
-    var i = screen.screens["Quadrant"].highlightedSectorIndex;
-    var sector = global.data.sectors[i];
-    var coords = sectorIndexToSectorCoordinates(i);
+    const sector = getHighlightedSector(screen);
+    const coords = sectorIndexToSectorCoordinates(i);
 
     return "Sector: " + sector.name + " (" + coords.letter + ", " + coords.number + ")";
 }
 
 function sectorOwner(screen) {
-    var i = screen.screens["Quadrant"].highlightedSectorIndex;
-    var sector = global.data.sectors[i];
+    const sector = getHighlightedSector(screen);
 
     if (sector.owner) {
         return 'Owner: ' + sector.owner;
@@ -130,7 +135,72 @@ function sectorOwner(screen) {
 
     return '';
 }
-        
+
+function sectorShips(screen) {
+    const sector = getHighlightedSector(screen);
+
+    if (sector.ships) {
+        return 'Ships: ' + sector.ships;
+    }
+
+    return '';
+}
+
+function newShipMoveOrder(sectorIndex) {
+    return {
+        sourceSectorIndex: sectorIndex,
+        destinationSectorIndex: null,
+        ships: 0,
+    };
+}
+
+function getQuadrantQueuedOrder(screen) {
+    return screen.screens['Quadrant'].queuedOrder;
+}
+
+function quadrantQueuedOrderText(screen) {
+    const queuedOrder = getQuadrantQueuedOrder(screen);
+    const sourceCoords = sectorIndexToSectorCoordinates(queuedOrder.sourceSectorIndex);
+
+    return `Queued Order: Move ${queuedOrder.ships} Ships from (${sourceCoords.letter}, ${sourceCoords.number})`;
+}
+
+function handleSectorRightClick(data, i) {
+    i = gridIndexToSectorIndex(i);
+
+    let sector = data.sectors[i];
+    let queuedOrder = getQuadrantQueuedOrder(data.screen);
+
+    if (!queuedOrder) {
+        if (sector.ships === 0) {
+            return data;
+        }
+
+        queuedOrder = newShipMoveOrder(i);
+    }
+
+    if (i === queuedOrder.sourceSectorIndex) {
+        if (sector.ships > 0) {
+            queuedOrder.ships++;
+            sector.ships--;
+        }
+    } else {
+        queuedOrder.destinationSectorIndex = i;
+
+        const sourceCoords = sectorIndexToSectorCoordinates(queuedOrder.sourceSectorIndex);
+        const destCoords = sectorIndexToSectorCoordinates(i);
+
+        toasted.success(`Ordered ${queuedOrder.ships} Ships from (${sourceCoords.letter}, ${sourceCoords.number}) to (${destCoords.letter}, ${destCoords.number})`);
+
+        queuedOrder = null;
+    }
+
+    data.sectors[i] = sector;
+    data.screen.screens['Quadrant'].queuedOrder = queuedOrder;
+
+    return data;
+}
+
 function setScreen(screen, name) {
     screen.current = name;
 
@@ -168,4 +238,28 @@ function backToQuadrantScreen(screen) {
     screen.screens["Quadrant"].viewingSectorIndex = null;
     screen.screens["Quadrant"].highlightedSectorIndex = null;
     return screen;
+}
+
+//
+// Script
+//
+
+// Create Initial Sectors
+for (i = 0; i < quadrantSize * quadrantSize; i++) {
+    let owner = null;
+    let ships = 0;
+
+    if ([0, 1, 10].includes(i)) {
+        owner = "Player";
+        ships = 2;
+    } else if ([89, 98, 99].includes(i)) {
+        owner = "Computer";
+        ships = 2;
+    }
+
+    global.data.sectors.push({
+        name: sectorNames[i],
+        owner: owner,
+        ships: ships,
+    });
 }
