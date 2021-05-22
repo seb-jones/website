@@ -1,5 +1,5 @@
 const md = require("markdown-it");
-const moment = require("moment");
+const dayjs = require("dayjs");
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy("images");
@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
     });
 
     eleventyConfig.addNunjucksFilter("sitemapDate", value => { 
-        return moment(value).format("YYYY-MM-DD");
+        return dayjs(value).format("YYYY-MM-DD");
     });
 
     eleventyConfig.addNunjucksFilter("blurredImage", value => { 
