@@ -6,6 +6,10 @@
         "alt": "The logo for Faustian Sands.",
         "links": [
             {
+                "label": "Play Online",
+                "href": "https://seb-jones.github.io/ld44/"
+            },
+            {
                 "label": "Source Code",
                 "href": "https://github.com/seb-jones/ld44"
             },
