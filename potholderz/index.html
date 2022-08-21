@@ -16,6 +16,16 @@ body {
     position: relative;
     overflow: hidden;
     background-color: #000;
+    opacity: 0.0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.0;
+    }
+    to {
+        opacity: 1.0;
+    }
 }
 
 #animated-background-container {
@@ -205,11 +215,9 @@ let uniforms;
 
 init();
 
-animate();
-
 function init() {
 
-    const container = document.getElementById( 'animated-background-container' );
+    const container = document.getElementById('animated-background-container');
 
     camera = new THREE.OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
 
@@ -222,24 +230,22 @@ function init() {
         mouse: { value: new THREE.Vector2(0.0, 0.0) },
     };
 
-    const material = new THREE.ShaderMaterial( {
-
+    const material = new THREE.ShaderMaterial({
         uniforms: uniforms,
         vertexShader,
         fragmentShader,
+    });
 
-    } );
-
-    const mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
     renderer = new THREE.WebGLRenderer({ alpha: true, premultipliedAlpha: false });
-    renderer.setPixelRatio( window.devicePixelRatio );
-    container.appendChild( renderer.domElement );
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
 
     onWindowResize();
 
-    window.addEventListener( 'resize', onWindowResize );
+    window.addEventListener('resize', onWindowResize);
 
     // on mouse move
     document.addEventListener('mousemove', function(event) {
@@ -249,6 +255,11 @@ function init() {
             1 - (event.clientY / window.innerHeight),
         );
     });
+
+    animate();
+
+    document.body.style.animation = 'fadeIn 0.75s ease-in-out';
+    document.body.style.opacity = '1.0';
 }
 
 function onWindowResize() {
