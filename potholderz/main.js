@@ -56,8 +56,11 @@ function init() {
 
     animate();
 
-    document.body.style.animation = 'fadeIn 0.75s ease-in-out';
-    document.body.style.opacity = '1.0';
+    const pageWrapper = document.querySelector('#page-wrapper');
+
+    pageWrapper.style.animation = 'fadeIn 0.75s ease-in-out';
+
+    pageWrapper.style.opacity = '1.0';
 }
 
 function onWindowResize() {

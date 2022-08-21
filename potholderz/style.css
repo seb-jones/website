@@ -1,19 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    position: relative;
-    overflow: hidden;
-    background-color: #000;
-    opacity: 0.0;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0.0;
-    }
-    to {
-        opacity: 1.0;
-    }
 }
 
 #animated-background-container {
@@ -28,7 +15,21 @@ body {
     height: 100% !important;
 }
 
-main {
+#page-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.0;
+    }
+    to {
+        opacity: 1.0;
+    }
+}
+
+#title {
     position: relative;
     z-index: 0;
     height: 100vh;
@@ -40,7 +41,6 @@ h1 {
     margin: 0;
     padding: 0;
     font-family: 'Cormorant Garamond', cursive;
-    color: #fff;
     text-shadow: 0 0 10px black;
     user-select: none;
     padding-top: 20vh;
