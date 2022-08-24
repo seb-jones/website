@@ -92,7 +92,6 @@ float snoise(vec3 v)
 
 varying vec2 v_uv;
 uniform float time;
-uniform vec2 mouse;
 
 void main()
 {

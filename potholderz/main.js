@@ -23,7 +23,6 @@ function init() {
 
     uniforms = {
         time: { value: 1.0 },
-        mouse: { value: new THREE.Vector2(0.0, 0.0) },
     };
 
     const material = new THREE.ShaderMaterial( {
@@ -44,15 +43,6 @@ function init() {
     onWindowResize();
 
     window.addEventListener( 'resize', onWindowResize );
-
-    // on mouse move
-    document.addEventListener('mousemove', function(event) {
-        // normalize mouse x and y to 0 to 1
-        uniforms.mouse.value = new THREE.Vector2(
-            event.clientX / window.innerWidth,
-            1 - (event.clientY / window.innerHeight),
-        );
-    });
 
     animate();
 
