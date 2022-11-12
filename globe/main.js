@@ -8,7 +8,7 @@ import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass.js';
 
 let camera, scene, renderer, composer;
 
-let point;
+let points = null;
 
 init();
 animate();
@@ -18,16 +18,22 @@ function init() {
 
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 
-    camera.position.z = 3;
+    camera.position.z = 2.5;
 
     scene = new THREE.Scene();
 
+    // Load 'populated places' points
     const loader = new THREE.BufferGeometryLoader();
-
     loader.load('/globe/points.json', function ( geometry ) {
-        point = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x00ffff, size: .05 } ) );
-        scene.add( point );
+        points = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x00ff00, size: .025 } ) );
+        scene.add( points );
     });
+
+    // Sphere representing the Earth
+    const geometry = new THREE.SphereGeometry( 0.99, 32, 32 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+    const sphere = new THREE.Mesh( geometry, material );
+    scene.add( sphere );
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -60,21 +66,17 @@ function onWindowResize() {
 
 function onKeyDown( event ) {
     switch ( event.keyCode ) {
-        case 38: /*up*/
-        case 87: /*W*/ point.rotation.x -= 0.1; break;
-        case 37: /*left*/
-        case 65: /*A*/ point.rotation.y -= 0.1; break;
-        case 40: /*down*/
-        case 83: /*S*/ point.rotation.x += 0.1; break;
-        case 39: /*right*/
-        case 68: /*D*/ point.rotation.y += 0.1; break;
-        case 82: /*R*/ point.rotation.z += 0.1; break;
-        case 70: /*F*/ point.rotation.z -= 0.1; break;
+        case 38: /*up*/ points.rotation.x -= 0.1; break;
+        case 40: /*down*/ points.rotation.x += 0.1; break;
     }
 }
 
 function animate() {
     requestAnimationFrame(animate);
+
+    if (points) {
+        points.rotation.y += 0.001;
+    }
 
     renderer.clear();
     composer.render( 0.01 );
