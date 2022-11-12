@@ -13,6 +13,8 @@
     "vite": "^3.0.7"
   },
   "dependencies": {
+    "earcut": "^2.2.4",
+    "lodash": "^4.17.21",
     "three": "^0.143.0"
   }
 }
