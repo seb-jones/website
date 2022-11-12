@@ -6,10 +6,9 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass.js';
 import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass.js';
 
-let camera, scene, renderer, composer, mesh;
+let camera, scene, renderer, composer;
 
-let mouseX = 0;
-let mouseY = 0;
+let point;
 
 init();
 animate();
@@ -17,21 +16,18 @@ animate();
 function init() {
     const container = document.getElementById( 'container' );
 
-    window.addEventListener( 'mousemove', onDocumentMouseMove );
-
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 
-    camera.position.z = 2;
+    camera.position.z = 3;
 
     scene = new THREE.Scene();
 
-    const material = new THREE.MeshNormalMaterial({ wireframe: true });
+    const loader = new THREE.BufferGeometryLoader();
 
-    const geometry = new THREE.SphereGeometry( 1, 10, 10 );
-
-    mesh = new THREE.Mesh( geometry, material );
-
-    scene.add( mesh );
+    loader.load('/globe/points.json', function ( geometry ) {
+        point = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x00ffff, size: .05 } ) );
+        scene.add( point );
+    });
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -51,11 +47,8 @@ function init() {
     onWindowResize();
 
     window.addEventListener( 'resize', onWindowResize );
-}
 
-function onDocumentMouseMove( event ) {
-    mouseX = ( event.clientX - window.innerWidth / 2 );
-    mouseY = ( event.clientY - window.innerHeight / 2 );
+    window.addEventListener( 'keydown', onKeyDown );
 }
 
 function onWindowResize() {
@@ -65,20 +58,23 @@ function onWindowResize() {
     composer.setSize( window.innerWidth, window.innerHeight );
 }
 
+function onKeyDown( event ) {
+    switch ( event.keyCode ) {
+        case 38: /*up*/
+        case 87: /*W*/ point.rotation.x -= 0.1; break;
+        case 37: /*left*/
+        case 65: /*A*/ point.rotation.y -= 0.1; break;
+        case 40: /*down*/
+        case 83: /*S*/ point.rotation.x += 0.1; break;
+        case 39: /*right*/
+        case 68: /*D*/ point.rotation.y += 0.1; break;
+        case 82: /*R*/ point.rotation.z += 0.1; break;
+        case 70: /*F*/ point.rotation.z -= 0.1; break;
+    }
+}
+
 function animate() {
     requestAnimationFrame(animate);
-
-    if (mouseX > 300) {
-        mesh.rotation.y += 0.01;
-    } else if (mouseX < -300) {
-        mesh.rotation.y -= 0.01;
-    }
-
-    if (mouseY > 300) {
-        mesh.rotation.x += 0.01;
-    } else if (mouseY < -300) {
-        mesh.rotation.x -= 0.01;    
-    }
 
     renderer.clear();
     composer.render( 0.01 );
