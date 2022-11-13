@@ -3,7 +3,7 @@ import earcut from 'earcut'
 import _ from 'lodash'
 
 //
-// Convert 'Populated Places' GeoJSON to a JavaScript object
+// Convert 'Populated Places' GeoJSON to a BufferGeometry of points
 //
 
 let geojson = JSON.parse(fs.readFileSync('./ne_10m_populated_places_simple.json', 'utf8'))
@@ -45,12 +45,69 @@ fs.writeFileSync('./points.json', JSON.stringify(data))
 
 
 //
-// Convert 'Countries' GeoJSON to a JavaScript object
+// Convert 'Countries' GeoJSON to Lines
 //
 
-geojson = JSON.parse(fs.readFileSync('./ne_10m_admin_0_countries.json', 'utf8'))
+geojson = JSON.parse(fs.readFileSync('./ne_50m_admin_0_countries.json', 'utf8'))
 
-let feature = geojson.features.find(feature => feature.properties.NAME === 'Poland')
+data = geojson
+    .features
+    .filter(feature => ['Polygon', 'MultiPolygon'].includes(feature.geometry.type))
+    .map(feature => ({
+        name: feature.properties.NAME,
+        type: feature.geometry.type,
+        coordinates: feature.geometry.coordinates
+    }))
+    .reduce((acc, feature) => {
+        if (feature.type === 'Polygon') {
+            acc.push({
+                name: feature.name,
+                coordinates: feature.coordinates.map(
+                    coord => coord.slice(0, -1)
+                )
+            })
+        } else {
+            feature.coordinates.forEach(coordinates => {
+                const coords = coordinates.map(
+                    coord => coord.slice(0, -1)
+                )
+
+                acc.push({
+                    name: feature.name,
+                    coordinates: coords
+                })
+            })
+        }
+        return acc
+    }, [])
+    .map(feature => {
+        const vertices = feature.coordinates.flat(1).map(
+            // Convert longitude and latitude to x, y, z coordinates
+            ([longitude, latitude]) => {
+                const phi = (90 - latitude) * Math.PI / 180
+                const theta = (180 - longitude) * Math.PI / 180
+                return [
+                    Math.sin(phi) * Math.cos(theta),
+                    Math.cos(phi),
+                    Math.sin(phi) * Math.sin(theta)
+                ]
+            }
+        ).flat(1)
+
+        return {
+            name: feature.name,
+            vertices,
+        }
+    })
+
+fs.writeFileSync('./country-lines.json', JSON.stringify(data))
+
+
+//
+// Convert 'Countries' GeoJSON to Triangles
+//
+
+geojson = JSON.parse(fs.readFileSync('./ne_50m_admin_0_countries.json', 'utf8'))
 
 data = geojson
     .features
@@ -68,9 +125,13 @@ data = geojson
             })
         } else {
             feature.coordinates.forEach(coordinates => {
+                console.log(coordinates)
+                process.exit(1)
                 acc.push({
                     name: feature.name,
-                    coordinates
+                    coordinates: coordinates.map(
+                    coord => coord.slice(0, -1)
+                )
                 })
             })
         }

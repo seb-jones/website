@@ -9,6 +9,7 @@ import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass.js';
 let camera, scene, renderer, composer;
 
 let points = null;
+let lines = [];
 let meshes = [];
 
 init();
@@ -19,7 +20,7 @@ function init() {
 
     camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 
-    camera.position.z = 2.0;
+    camera.position.z = 2.5;
 
     scene = new THREE.Scene();
 
@@ -30,8 +31,9 @@ function init() {
         // scene.add( points );
     });
 
-    // Load countries geometry
     const fileLoader = new THREE.FileLoader();
+
+    // Load countries polygons
     fileLoader.load('/globe/countries.json', function ( data ) {
         const countries = JSON.parse(data);
 
@@ -39,23 +41,39 @@ function init() {
             const geometry = new THREE.BufferGeometry();
             geometry.setIndex(new THREE.Uint16BufferAttribute(country.indices, 1));
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(country.vertices, 3));
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const mesh = new THREE.Mesh(geometry, material);
+            meshes.push(mesh);
 
             scene.add(mesh);
+        }
+    });
 
-            meshes.push(mesh);
+
+    // Load country lines
+    fileLoader.load('/globe/country-lines.json', function ( data ) {
+        const countries = JSON.parse(data);
+
+        for (let country of countries) {
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(country.vertices, 3));
+            const material = new THREE.LineBasicMaterial({ color: 0x000000 });
+            const line = new THREE.LineLoop(geometry, material);
+
+            // scene.add(line);
+
+            lines.push(line);
         }
     });
 
     // Sphere representing the Earth
-    const geometry = new THREE.SphereGeometry( 0.99, 32, 32 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+    const geometry = new THREE.SphereGeometry( 0.9, 100, 100 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
     const sphere = new THREE.Mesh( geometry, material );
-    scene.add( sphere );
+    // scene.add( sphere );
 
-    scene.rotation.y = 0;
-    scene.rotation.x = 0;
+    scene.rotation.y = 0.75;
+    scene.rotation.x = 0.75;
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -73,12 +91,10 @@ function init() {
 
     // const effectFilm = new FilmPass( 0.35, 0.95, 2048, false );
     // composer.addPass( effectFilm );
-
+    
     onWindowResize();
 
     window.addEventListener( 'resize', onWindowResize );
-
-    window.addEventListener( 'keydown', onKeyDown );
 }
 
 function onWindowResize() {
@@ -88,17 +104,10 @@ function onWindowResize() {
     composer.setSize( window.innerWidth, window.innerHeight );
 }
 
-function onKeyDown( event ) {
-    switch ( event.keyCode ) {
-        case 38: /*up*/ scene.rotation.x -= 0.1; break;
-        case 40: /*down*/ scene.rotation.x += 0.1; break;
-    }
-}
-
 function animate() {
     requestAnimationFrame(animate);
 
-    scene.rotation.y += 0.01;
+    scene.rotation.y += 0.005;
 
     renderer.clear();
     composer.render( 0.01 );
