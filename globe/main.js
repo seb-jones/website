@@ -9,7 +9,7 @@ import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass.js';
 let camera, scene, renderer, composer;
 
 let points = null;
-let mesh = null;
+let meshes = [];
 
 init();
 animate();
@@ -24,41 +24,55 @@ function init() {
     scene = new THREE.Scene();
 
     // Load 'populated places' points
-    const loader = new THREE.BufferGeometryLoader();
-    loader.load('/globe/points.json', function ( geometry ) {
+    const bufferGeometryLoader = new THREE.BufferGeometryLoader();
+    bufferGeometryLoader.load('/globe/points.json', function ( geometry ) {
         points = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x00ff00, size: .025 } ) );
         // scene.add( points );
     });
 
     // Load countries geometry
-    loader.load('/globe/countries.json', function ( geometry ) {
-        mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xffff00 } ) );
-        scene.add(mesh);
+    const fileLoader = new THREE.FileLoader();
+    fileLoader.load('/globe/countries.json', function ( data ) {
+        const countries = JSON.parse(data);
+
+        for (let country of countries) {
+            const geometry = new THREE.BufferGeometry();
+            geometry.setIndex(new THREE.Uint16BufferAttribute(country.indices, 1));
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(country.vertices, 3));
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+            const mesh = new THREE.Mesh(geometry, material);
+
+            scene.add(mesh);
+
+            meshes.push(mesh);
+        }
     });
 
     // Sphere representing the Earth
     const geometry = new THREE.SphereGeometry( 0.99, 32, 32 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+    const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
     const sphere = new THREE.Mesh( geometry, material );
-    // scene.add( sphere );
+    scene.add( sphere );
 
-    scene.rotation.y = 1.2;
-    scene.rotation.x = 0.6;
+    scene.rotation.y = 0;
+    scene.rotation.x = 0;
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     container.appendChild( renderer.domElement );
     renderer.autoClear = false;
 
-    const renderModel = new RenderPass( scene, camera );
-    const effectBloom = new BloomPass( 1.25 );
-    const effectFilm = new FilmPass( 0.35, 0.95, 2048, false );
 
     composer = new EffectComposer( renderer );
 
+    const renderModel = new RenderPass( scene, camera );
     composer.addPass( renderModel );
-    composer.addPass( effectBloom );
-    composer.addPass( effectFilm );
+
+    // const effectBloom = new BloomPass( 1.25 );
+    // composer.addPass( effectBloom );
+
+    // const effectFilm = new FilmPass( 0.35, 0.95, 2048, false );
+    // composer.addPass( effectFilm );
 
     onWindowResize();
 
@@ -84,7 +98,7 @@ function onKeyDown( event ) {
 function animate() {
     requestAnimationFrame(animate);
 
-    scene.rotation.y += 0.001;
+    scene.rotation.y += 0.01;
 
     renderer.clear();
     composer.render( 0.01 );
