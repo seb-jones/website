@@ -25,8 +25,8 @@ function init() {
     clock = new THREE.Clock();
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x88ccee );
-    scene.fog = new THREE.Fog( 0x88ccee, 0, 50 );
+    scene.background = new THREE.Color( 0xaaaaaa );
+    scene.fog = new THREE.Fog( 0xaaaaaa, 0, 10 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
@@ -90,7 +90,10 @@ function init() {
         worldOctree = new Octree();
         worldOctree.fromGraphNode( model );
 
-        playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1, 0 ), 0.35 );
+        const x = 3;
+        const z = -3;
+
+        playerCollider = new Capsule( new THREE.Vector3( x, 0.35, z ), new THREE.Vector3( x, 1, z ), 0.35 );
 
         playerVelocity = new THREE.Vector3();
 
@@ -221,14 +224,22 @@ function getSideVector() {
 }
 
 function updatePlayer( deltaTime ) {
+
     let damping = Math.exp( - 4 * deltaTime ) - 1;
 
     playerVelocity.addScaledVector( playerVelocity, damping );
 
     const deltaPosition = playerVelocity.clone().multiplyScalar( deltaTime );
+
     playerCollider.translate( deltaPosition );
 
-    // playerCollisions();
+    const collision = worldOctree.capsuleIntersect( playerCollider );
+
+    if ( collision ) {
+
+        playerCollider.translate( collision.normal.clone().multiplyScalar( collision.depth ) );
+
+    }
 
     camera.position.copy( playerCollider.end );
 }
