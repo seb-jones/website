@@ -56,11 +56,9 @@ function init() {
     stats.domElement.style.top = '0px';
     container.appendChild( stats.domElement );
 
-    window.addEventListener( 'resize', onWindowResize );
-
     const loader = new GLTFLoader();
 
-    loader.load( '/models/chrimbas.glb', function ( gltf ) {
+    loader.load( '/models/chrimbas.glb', ( gltf ) => {
 
         const model = gltf.scene;
 
@@ -69,6 +67,9 @@ function init() {
             if ( child.isMesh ) {
 
                 child.castShadow = true;
+                child.receiveShadow = true;
+
+                child.material = new THREE.MeshToonMaterial( { color: 0xffffff } );
 
             }
 
@@ -76,9 +77,12 @@ function init() {
 
         scene.add( model );
 
-    } );
+        window.addEventListener( 'resize', onWindowResize );
+        document.addEventListener( 'mousedown', onMouseDown );
+        document.body.addEventListener( 'mousemove', onMouseMove );
 
-    animate();
+        animate();
+    } );
 }
 
 function onWindowResize() {
@@ -87,6 +91,23 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function onMouseDown() {
+
+    document.body.requestPointerLock();
+
+}
+
+function onMouseMove() {
+
+    if ( document.pointerLockElement === document.body ) {
+
+        camera.rotation.y -= event.movementX / 500;
+        camera.rotation.x -= event.movementY / 500;
+
+    }
 
 }
 
