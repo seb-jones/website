@@ -28,7 +28,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x88aacc );
-    scene.fog = new THREE.Fog( 0x88aacc, 0, 10 );
+    scene.fog = new THREE.Fog( 0x88aacc, 0, 14 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
@@ -98,12 +98,12 @@ function init() {
                 size: .11,
                 map,
                 blending: THREE.AdditiveBlending,
-                depthTest: false,
+                depthTest: true,
                 transparent: true,
                 fog: false,
             });
 
-            const snow = new THREE.Points( geometry, material );
+            snow = new THREE.Points( geometry, material );
 
             scene.add( snow );
         }
@@ -200,6 +200,8 @@ function animate() {
 
         updatePlayer( deltaTime );
 
+        updateSnowfall( deltaTime);
+
     }
 
     renderer.render( scene, camera );
@@ -282,4 +284,23 @@ function updatePlayer( deltaTime ) {
     }
 
     camera.position.copy( playerCollider.end );
+}
+
+function updateSnowfall( deltaTime ) {
+
+    const snowPositions = snow.geometry.attributes.position.array;
+
+    for ( let i = 0; i < snowPositions.length; i += 3 ) {
+
+        snowPositions[ i + 1 ] -= deltaTime * 0.5;
+
+        if ( snowPositions[ i + 1 ] < 0 ) {
+
+            snowPositions[ i + 1 ] = 25;
+
+        }
+
+    }
+
+    snow.geometry.attributes.position.needsUpdate = true;
 }
