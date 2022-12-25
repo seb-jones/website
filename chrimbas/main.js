@@ -25,8 +25,8 @@ function init() {
     clock = new THREE.Clock();
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xaaaaaa );
-    scene.fog = new THREE.Fog( 0xaaaaaa, 0, 10 );
+    scene.background = new THREE.Color( 0x88aacc );
+    scene.fog = new THREE.Fog( 0x88aacc, 0, 10 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
