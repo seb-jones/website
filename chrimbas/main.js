@@ -6,7 +6,17 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+import { Octree } from 'three/examples/jsm/math/Octree.js';
+
+import { Capsule } from 'three/examples/jsm/math/Capsule.js';
+
 let clock, scene, camera, renderer, stats;
+
+let worldOctree, playerCollider, playerVelocity, playerDirection;
+
+let keystates = {};
+
+const STEPS_PER_FRAME = 5;
 
 init();
 
@@ -77,7 +87,18 @@ function init() {
 
         scene.add( model );
 
+        worldOctree = new Octree();
+        worldOctree.fromGraphNode( model );
+
+        playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1, 0 ), 0.35 );
+
+        playerVelocity = new THREE.Vector3();
+
+        playerDirection = new THREE.Vector3();
+
         window.addEventListener( 'resize', onWindowResize );
+        document.addEventListener( 'keydown', onKeyDown );
+        document.addEventListener( 'keyup', onKeyUp );
         document.addEventListener( 'mousedown', onMouseDown );
         document.body.addEventListener( 'mousemove', onMouseMove );
 
@@ -91,6 +112,18 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function onKeyDown(event) {
+
+    keystates[event.code] = true;
+
+}
+
+function onKeyUp(event) {
+
+    keystates[event.code] = false;
 
 }
 
@@ -113,12 +146,89 @@ function onMouseMove() {
 
 function animate() {
 
-    requestAnimationFrame( animate );
+    const deltaTime = Math.min( 0.05, clock.getDelta() ) / STEPS_PER_FRAME;
 
-    const delta = clock.getDelta();
+    // we look for collisions in substeps to mitigate the risk of
+    // an object traversing another too quickly for detection.
+
+    for ( let i = 0; i < STEPS_PER_FRAME; i ++ ) {
+
+        controls( deltaTime );
+
+        updatePlayer( deltaTime );
+
+    }
 
     renderer.render( scene, camera );
 
     stats.update();
 
+    requestAnimationFrame( animate );
+
+}
+
+function controls( deltaTime ) {
+
+    const speedDelta = deltaTime * 25;
+
+    if ( keystates[ 'KeyW' ] ) {
+
+        playerVelocity.add( getForwardVector().multiplyScalar( speedDelta ) );
+
+    }
+
+    if ( keystates[ 'KeyS' ] ) {
+
+        playerVelocity.add( getForwardVector().multiplyScalar( - speedDelta ) );
+
+    }
+
+    if ( keystates[ 'KeyA' ] ) {
+
+        playerVelocity.add( getSideVector().multiplyScalar( - speedDelta ) );
+
+    }
+
+    if ( keystates[ 'KeyD' ] ) {
+
+        playerVelocity.add( getSideVector().multiplyScalar( speedDelta ) );
+
+    }
+
+}
+
+function getForwardVector() {
+
+    camera.getWorldDirection( playerDirection );
+
+    playerDirection.y = 0;
+    playerDirection.normalize();
+
+    return playerDirection;
+
+}
+
+function getSideVector() {
+
+    camera.getWorldDirection( playerDirection );
+
+    playerDirection.y = 0;
+    playerDirection.normalize();
+    playerDirection.cross( camera.up );
+
+    return playerDirection;
+
+}
+
+function updatePlayer( deltaTime ) {
+    let damping = Math.exp( - 4 * deltaTime ) - 1;
+
+    playerVelocity.addScaledVector( playerVelocity, damping );
+
+    const deltaPosition = playerVelocity.clone().multiplyScalar( deltaTime );
+    playerCollider.translate( deltaPosition );
+
+    // playerCollisions();
+
+    camera.position.copy( playerCollider.end );
 }
