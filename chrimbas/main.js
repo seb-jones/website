@@ -16,6 +16,8 @@ let worldOctree, playerCollider, playerVelocity, playerDirection;
 
 let keystates = {};
 
+let snow;
+
 const STEPS_PER_FRAME = 5;
 
 init();
@@ -66,9 +68,47 @@ function init() {
     stats.domElement.style.top = '0px';
     container.appendChild( stats.domElement );
 
-    const loader = new GLTFLoader();
+    const gltfLoader = new GLTFLoader();
 
-    loader.load( '/models/chrimbas.glb', ( gltf ) => {
+    gltfLoader.load( '/models/chrimbas.glb', ( gltf ) => {
+
+        // Set up snow effect
+        {
+            const geometry = new THREE.BufferGeometry();
+
+            const positions = [];
+
+            for ( let i = 0; i < 10000; i ++ ) {
+
+                const x = (Math.random() * 50) - 25;
+                const y = (Math.random() * 25);
+                const z = (Math.random() * 50) - 25;
+
+                positions.push( x, y, z );
+
+            }
+
+            geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
+
+            const textureLoader = new THREE.TextureLoader();
+
+            const map = textureLoader.load( '/sprites/snowflake2.png' );
+
+            const material = new THREE.PointsMaterial( {
+                size: .11,
+                map,
+                blending: THREE.AdditiveBlending,
+                depthTest: false,
+                transparent: true,
+                fog: false,
+            });
+
+            const snow = new THREE.Points( geometry, material );
+
+            scene.add( snow );
+        }
+
+        // Set up world
 
         const model = gltf.scene;
 
