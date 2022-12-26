@@ -116,8 +116,8 @@ function init() {
 
             if ( child.isMesh ) {
 
-                child.castShadow = true;
-                child.receiveShadow = true;
+                // child.castShadow = true;
+                // child.receiveShadow = true;
 
                 child.material = new THREE.MeshToonMaterial( { color: 0xffffff } );
 
