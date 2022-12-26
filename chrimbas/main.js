@@ -145,6 +145,11 @@ function init() {
                         
                 }
 
+                if (child.name !== 'Fences') {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+
                 if (child.name === 'Eyes') {
                     child.material = new THREE.MeshPhongMaterial( { color, specular: 0xffffff, shininess: 100 } );
                 } else {
