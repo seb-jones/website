@@ -119,7 +119,7 @@ function init() {
                 // child.castShadow = true;
                 // child.receiveShadow = true;
 
-                child.material = new THREE.MeshToonMaterial( { color: 0xffffff } );
+                child.material = new THREE.MeshToonMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
 
             }
 
