@@ -18,7 +18,15 @@ let keystates = {};
 
 let snow;
 
+let balls = [];
+let ballIndex = 0;
+
+let mouseTime = 0;
+
 const STEPS_PER_FRAME = 5;
+const NUMBER_OF_BALLS = 100;
+const BALL_RADIUS = 0.1;
+const GRAVITY = 15;
 
 init();
 
@@ -148,6 +156,30 @@ function init() {
 
         scene.add( model );
 
+        // Set up snowballs
+
+        {
+            const geometry = new THREE.IcosahedronGeometry( BALL_RADIUS, 3 );
+
+            const material = new THREE.MeshToonMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+
+            for ( let i = 0; i < NUMBER_OF_BALLS; i ++ ) {
+
+                const mesh = new THREE.Mesh( geometry, material );
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                scene.add( mesh );
+
+                balls.push( {
+                    mesh,
+                    collider: new THREE.Sphere( new THREE.Vector3(0, -100, 0), BALL_RADIUS ),
+                    velocity: new THREE.Vector3(),
+                } );
+
+            }
+        }
+
         worldOctree = new Octree();
         worldOctree.fromGraphNode( model );
 
@@ -164,6 +196,7 @@ function init() {
         document.addEventListener( 'keydown', onKeyDown );
         document.addEventListener( 'keyup', onKeyUp );
         document.addEventListener( 'mousedown', onMouseDown );
+        document.addEventListener( 'mouseup', onMouseUp );
         document.body.addEventListener( 'mousemove', onMouseMove );
 
         animate();
@@ -195,6 +228,16 @@ function onMouseDown() {
 
     document.body.requestPointerLock();
 
+    mouseTime = performance.now();
+
+}
+
+function onMouseUp() {
+
+    if (document.pointerLockElement === document.body) {
+        throwBall();
+    }
+
 }
 
 function onMouseMove() {
@@ -220,6 +263,8 @@ function animate() {
         controls( deltaTime );
 
         updatePlayer( deltaTime );
+
+        updateBalls( deltaTime );
 
         updateSnowfall( deltaTime);
 
@@ -306,6 +351,43 @@ function updatePlayer( deltaTime ) {
 
     camera.position.copy( playerCollider.end );
 }
+
+function throwBall() {
+
+    const ball = balls[ ballIndex ];
+
+    camera.getWorldDirection( playerDirection );
+
+    ball.collider.center.copy( playerCollider.end ).addScaledVector( playerDirection, playerCollider.radius * 1.5 );
+
+    // throw the ball with more force if we hold the button longer, and if we move forward
+
+    const impulse = 15 + 30 * ( 1 - Math.exp( ( mouseTime - performance.now() ) * 0.001 ) );
+
+    ball.velocity.copy( playerDirection ).multiplyScalar( impulse );
+    ball.velocity.addScaledVector( playerVelocity, 2 );
+
+    ballIndex = ( ballIndex + 1 ) % balls.length;
+
+}
+
+function updateBalls( deltaTime ) {
+
+    balls.forEach( ball => {
+
+        ball.collider.center.addScaledVector( ball.velocity, deltaTime );
+
+        ball.velocity.y -= GRAVITY * deltaTime;
+
+        const damping = Math.exp( - 1.5 * deltaTime ) - 1;
+
+        ball.velocity.addScaledVector( ball.velocity, damping );
+
+        ball.mesh.position.copy( ball.collider.center );
+    } );
+
+}
+
 
 function updateSnowfall( deltaTime ) {
 
