@@ -24,7 +24,7 @@ let ballIndex = 0;
 let mouseTime = 0;
 
 const STEPS_PER_FRAME = 5;
-const NUMBER_OF_BALLS = 100;
+const NUMBER_OF_BALLS = 20;
 const BALL_RADIUS = 0.1;
 const GRAVITY = 15;
 
@@ -377,6 +377,16 @@ function updateBalls( deltaTime ) {
 
         ball.collider.center.addScaledVector( ball.velocity, deltaTime );
 
+        const collision = worldOctree.sphereIntersect( ball.collider );
+
+        if (collision) {
+
+            ball.collider.center.set(0, -100, 0);
+
+            ball.velocity.setScalar( 0 );
+
+        }
+
         ball.velocity.y -= GRAVITY * deltaTime;
 
         const damping = Math.exp( - 1.5 * deltaTime ) - 1;
@@ -384,6 +394,7 @@ function updateBalls( deltaTime ) {
         ball.velocity.addScaledVector( ball.velocity, damping );
 
         ball.mesh.position.copy( ball.collider.center );
+
     } );
 
 }
