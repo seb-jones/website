@@ -28,7 +28,7 @@ function init() {
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x88aacc );
-    scene.fog = new THREE.Fog( 0x88aacc, 0, 14 );
+    scene.fog = new THREE.Fog( 0x88aacc, 0, 22 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
@@ -118,8 +118,10 @@ function init() {
 
                 // child.castShadow = true;
                 // child.receiveShadow = true;
+                
+                const color = (child.name === 'Fences') ? 0x321A08 : 0xffffff;
 
-                child.material = new THREE.MeshToonMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+                child.material = new THREE.MeshToonMaterial( { color, side: THREE.DoubleSide } );
 
             }
 
