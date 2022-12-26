@@ -32,6 +32,7 @@ function init() {
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
+    camera.rotation.y = -90;
 
     const fillLight1 = new THREE.HemisphereLight( 0x4488bb, 0x002244, 0.5 );
     fillLight1.position.set( 2, 1, 1 );
@@ -116,13 +117,31 @@ function init() {
 
             if ( child.isMesh ) {
 
-                // child.castShadow = true;
-                // child.receiveShadow = true;
-                
-                const color = (child.name === 'Fences') ? 0x321A08 : 0xffffff;
+                let color = 0xffffff;
 
-                child.material = new THREE.MeshToonMaterial( { color, side: THREE.DoubleSide } );
+                switch (child.name) {
+                    case 'Fences':
+                        color = 0x321A08;
+                        break;
 
+                    case 'Hat':
+                    case 'Eyes':
+                        color = 0x000000;
+                        break;
+
+                    case 'Nose':
+                    color = 0xff6600;
+                    break;
+                    
+                    default:
+                        
+                }
+
+                if (child.name === 'Eyes') {
+                    child.material = new THREE.MeshPhongMaterial( { color, specular: 0xffffff, shininess: 100 } );
+                } else {
+                    child.material = new THREE.MeshToonMaterial( { color, side: THREE.DoubleSide } );
+                }
             }
 
         } );
@@ -132,8 +151,8 @@ function init() {
         worldOctree = new Octree();
         worldOctree.fromGraphNode( model );
 
-        const x = 3;
-        const z = -3;
+        const x = 10;
+        const z = -5;
 
         playerCollider = new Capsule( new THREE.Vector3( x, 0.35, z ), new THREE.Vector3( x, 1, z ), 0.35 );
 
