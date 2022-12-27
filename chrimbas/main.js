@@ -21,11 +21,15 @@ let snow;
 let balls = [];
 let ballIndex = 0;
 
+let ballParticles;
+let ballParticleIndex = 0;
+
 let mouseTime = 0;
 
 const STEPS_PER_FRAME = 5;
 const NUMBER_OF_BALLS = 20;
-const BALL_RADIUS = 0.1;
+const NUMBER_OF_BALL_PARTICLES = 1000;
+const PARTICLES_PER_BALL = NUMBER_OF_BALL_PARTICLES / NUMBER_OF_BALLS;
 const GRAVITY = 15;
 
 init();
@@ -164,7 +168,9 @@ function init() {
         // Set up snowballs
 
         {
-            const geometry = new THREE.IcosahedronGeometry( BALL_RADIUS, 3 );
+            const radius = 0.1;
+
+            const geometry = new THREE.IcosahedronGeometry( radius, 3 );
 
             const material = new THREE.MeshToonMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
 
@@ -178,12 +184,52 @@ function init() {
 
                 balls.push( {
                     mesh,
-                    collider: new THREE.Sphere( new THREE.Vector3(0, -100, 0), BALL_RADIUS ),
+                    collider: new THREE.Sphere( new THREE.Vector3(-100, -100, -100), radius ),
                     velocity: new THREE.Vector3(),
                 } );
 
             }
         }
+
+        // Set up snowball particles
+        {
+            const geometry = new THREE.BufferGeometry();
+
+            const positions = [];
+
+            const normals = [];
+
+            for ( let i = 0; i < NUMBER_OF_BALL_PARTICLES; i ++ ) {
+
+                positions.push( -100, -100, -100);
+
+                normals.push( 0, 0, 0 );
+
+            }
+
+            geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
+
+            geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
+
+            const textureLoader = new THREE.TextureLoader();
+
+            const map = textureLoader.load( '/sprites/snowflake1.png' );
+
+            const material = new THREE.PointsMaterial( {
+                size: .1,
+                map,
+                blending: THREE.AdditiveBlending,
+                depthTest: true,
+                transparent: true,
+                fog: false,
+            });
+
+            ballParticles = new THREE.Points( geometry, material );
+
+            scene.add( ballParticles );
+        }
+
+        // Physics
 
         worldOctree = new Octree();
         worldOctree.fromGraphNode( model );
@@ -196,6 +242,8 @@ function init() {
         playerVelocity = new THREE.Vector3();
 
         playerDirection = new THREE.Vector3();
+
+        // Event Listeners
 
         window.addEventListener( 'resize', onWindowResize );
         document.addEventListener( 'keydown', onKeyDown );
@@ -270,6 +318,8 @@ function animate() {
         updatePlayer( deltaTime );
 
         updateBalls( deltaTime );
+
+        updateBallParticles( deltaTime );
 
         updateSnowfall( deltaTime);
 
@@ -386,7 +436,37 @@ function updateBalls( deltaTime ) {
 
         if (collision) {
 
-            ball.collider.center.set(0, -100, 0);
+            // Add particles where the ball collided, with normals pointing outwards
+
+            const particlePositions = ballParticles.geometry.attributes.position.array;
+            const particleNormals = ballParticles.geometry.attributes.normal.array;
+
+            for (let i = ballParticleIndex; i < ballParticleIndex + PARTICLES_PER_BALL; i++) {
+
+                particlePositions[i * 3] = ball.collider.center.x;
+                particlePositions[i * 3 + 1] = ball.collider.center.y;
+                particlePositions[i * 3 + 2] = ball.collider.center.z;
+
+                const normal = new THREE.Vector3(
+                    collision.normal.x + Math.random() * 0.2 - 0.1,
+                    collision.normal.y + Math.random() * 0.2 - 0.1,
+                    collision.normal.z + Math.random() * 0.2 - 0.1
+                );
+
+                particleNormals[i * 3] = normal.x;
+                particleNormals[i * 3 + 1] = normal.y;
+                particleNormals[i * 3 + 2] = normal.z;
+
+            }
+
+            ballParticles.geometry.attributes.position.needsUpdate = true;
+            ballParticles.geometry.attributes.normal.needsUpdate = true;
+
+            ballParticleIndex = (ballParticleIndex + PARTICLES_PER_BALL) % PARTICLES_PER_BALL;
+
+            // Move the ball outside the bounding box
+
+            ball.collider.center.set(-100, -100, -100);
 
             ball.velocity.setScalar( 0 );
 
@@ -402,6 +482,24 @@ function updateBalls( deltaTime ) {
 
     } );
 
+}
+
+function updateBallParticles( deltaTime ) {
+
+    // Move ball particles in direction of their normal
+
+    const positions = ballParticles.geometry.attributes.position.array;
+    const normals = ballParticles.geometry.attributes.normal.array;
+
+    for (let i = 0; i < NUMBER_OF_BALL_PARTICLES; i++) {
+
+        positions[i * 3] += normals[i * 3] * deltaTime * 5;
+        positions[i * 3 + 1] += (normals[i * 3 + 1] * deltaTime * 5) - (0.1 * GRAVITY * deltaTime);
+        positions[i * 3 + 2] += normals[i * 3 + 2] * deltaTime * 5;
+
+    }
+
+    ballParticles.geometry.attributes.position.needsUpdate = true;
 }
 
 
