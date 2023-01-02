@@ -25,8 +25,8 @@ let mouseTime = 0;
 
 const STEPS_PER_FRAME = 5;
 const NUMBER_OF_BALLS = 20;
-const NUMBER_OF_BALL_PARTICLES = 1000;
-const PARTICLES_PER_BALL = NUMBER_OF_BALL_PARTICLES / NUMBER_OF_BALLS;
+const PARTICLES_PER_BALL = 20
+const NUMBER_OF_BALL_PARTICLES = NUMBER_OF_BALLS * PARTICLES_PER_BALL;
 const GRAVITY = 15;
 
 init();
@@ -161,12 +161,21 @@ function init() {
 
                 scene.add( mesh );
 
+                let particles = [];
+
+                for (let j = 0; j < PARTICLES_PER_BALL; j++) {
+                    const particle = new THREE.Mesh( new THREE.IcosahedronGeometry( 0.04, 0 ), material );
+                    particle.userData.velocity = new THREE.Vector3();
+                    scene.add(particle);
+                    particles.push(particle);
+                }
+
                 balls.push( {
                     mesh,
+                    particles,
                     collider: new THREE.Sphere( new THREE.Vector3(-100, -100, -100), radius ),
                     velocity: new THREE.Vector3(),
                 } );
-
             }
         }
 
@@ -375,37 +384,17 @@ function updateBalls( deltaTime ) {
 
         if (collision) {
 
-            // Add a line to the scene to show the collision normal
+            // Move ball particles to the collision point
 
-            const line = new THREE.Line3( ball.collider.center, ball.collider.center.clone().addScaledVector( collision.normal, collision.depth * 10 ) );
+            ball.particles.forEach( particle => {
+                particle.position.copy(ball.collider.center); 
 
-            const geometry = new THREE.BufferGeometry().setFromPoints( [ line.start, line.end ] );
-
-            const material = new THREE.LineBasicMaterial( { color: 0x00ff00 } );
-
-            const lineMesh = new THREE.Line( geometry, material );
-
-            scene.add( lineMesh );
-
-            // Add red point to scene to show ball collider center
-
-            const geometry2 = new THREE.BufferGeometry().setFromPoints( [ ball.collider.center ] );
-
-            const material2 = new THREE.PointsMaterial( { color: 0xff0000, size: 0.1 } );
-
-            const pointMesh = new THREE.Points( geometry2, material2 );
-
-            scene.add( pointMesh );
-
-            // Add blue point to scene to show collider center plus collision normal/depth
-
-            const geometry3 = new THREE.BufferGeometry().setFromPoints( [ ball.collider.center.clone().addScaledVector( collision.normal, collision.depth ) ] );
-
-            const material3 = new THREE.PointsMaterial( { color: 0x0000ff, size: 0.1 } );
-
-            const pointMesh2 = new THREE.Points( geometry3, material3 );
-
-            scene.add( pointMesh2 );
+                particle.userData.velocity = new THREE.Vector3(
+                    Math.random() - 0.5,
+                    Math.random() - 0.5,
+                    Math.random() - 0.5
+                ).normalize().multiplyScalar(2);
+            } );
 
             // Move the ball outside the bounding box
 
@@ -423,6 +412,15 @@ function updateBalls( deltaTime ) {
 
         ball.mesh.position.copy( ball.collider.center );
 
+        ball.particles.forEach( particle => {
+
+            particle.position.addScaledVector( particle.userData.velocity, deltaTime );
+
+            particle.userData.velocity.y -= GRAVITY * deltaTime;
+
+            particle.userData.velocity.addScaledVector( particle.userData.velocity, damping );
+
+        } );
     } );
 
 }
