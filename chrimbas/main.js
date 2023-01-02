@@ -21,8 +21,6 @@ let snow;
 let balls = [];
 let ballIndex = 0;
 
-let mouseTime = 0;
-
 const STEPS_PER_FRAME = 5;
 const NUMBER_OF_BALLS = 20;
 const PARTICLES_PER_BALL = 20
@@ -231,8 +229,6 @@ function onMouseDown() {
 
     document.body.requestPointerLock();
 
-    mouseTime = performance.now();
-
 }
 
 function onMouseUp() {
@@ -363,9 +359,8 @@ function throwBall() {
 
     ball.collider.center.copy( playerCollider.end ).addScaledVector( playerDirection, playerCollider.radius * 1.5 );
 
-    // throw the ball with more force if we hold the button longer, and if we move forward
-
-    const impulse = 15 + 30 * ( 1 - Math.exp( ( mouseTime - performance.now() ) * 0.001 ) );
+    // This defines how hard the ball is thrown
+    const impulse = 25;
 
     ball.velocity.copy( playerDirection ).multiplyScalar( impulse );
     ball.velocity.addScaledVector( playerVelocity, 2 );
