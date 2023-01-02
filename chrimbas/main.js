@@ -34,12 +34,12 @@ function init() {
     clock = new THREE.Clock();
 
     const textureCube = new THREE.CubeTextureLoader().load( [
-        '/textures/skybox/clouds1_east_g.bmp',
-        '/textures/skybox/clouds1_west_g.bmp',
-        '/textures/skybox/clouds1_up_g.bmp',
-        '/textures/skybox/clouds1_down_g.bmp',
-        '/textures/skybox/clouds1_north_g.bmp',
-        '/textures/skybox/clouds1_south_g.bmp',
+        '/textures/skybox/clouds1_east_g.png',
+        '/textures/skybox/clouds1_west_g.png',
+        '/textures/skybox/clouds1_up_g.png',
+        '/textures/skybox/clouds1_down_g.png',
+        '/textures/skybox/clouds1_north_g.png',
+        '/textures/skybox/clouds1_south_g.png',
     ] );
 
     scene = new THREE.Scene();
