@@ -24,7 +24,6 @@ let ballIndex = 0;
 const STEPS_PER_FRAME = 5;
 const NUMBER_OF_BALLS = 20;
 const PARTICLES_PER_BALL = 20
-const NUMBER_OF_BALL_PARTICLES = NUMBER_OF_BALLS * PARTICLES_PER_BALL;
 const GRAVITY = 15;
 
 init();
