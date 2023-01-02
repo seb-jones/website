@@ -7,7 +7,8 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, 'index.html'),
                 fourOhFour: resolve(__dirname, '404.html'),
-                nested: resolve(__dirname, 'potholderz/index.html')
+                potholderz: resolve(__dirname, 'potholderz/index.html'),
+                chrimbas: resolve(__dirname, 'chrimbas/index.html'),
             }
         }
     }
