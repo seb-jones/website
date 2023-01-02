@@ -110,7 +110,7 @@ function init() {
 
             const textureLoader = new THREE.TextureLoader();
 
-            const map = textureLoader.load( '/sprites/snowflake2.png' );
+            const map = textureLoader.load( '/sprites/snowflake.png' );
 
             const material = new THREE.PointsMaterial( {
                 size: .11,
