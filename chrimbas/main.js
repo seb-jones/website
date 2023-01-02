@@ -43,9 +43,7 @@ function init() {
     ] );
 
     scene = new THREE.Scene();
-    // scene.background = new THREE.Color( 0x88aacc );
     scene.background = textureCube;
-    // scene.fog = new THREE.Fog( 0x88aacc, 0, 22 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
@@ -118,7 +116,6 @@ function init() {
                 blending: THREE.AdditiveBlending,
                 depthTest: true,
                 transparent: true,
-                fog: false,
             });
 
             snow = new THREE.Points( geometry, material );
