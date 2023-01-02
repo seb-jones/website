@@ -21,9 +21,6 @@ let snow;
 let balls = [];
 let ballIndex = 0;
 
-let ballParticles;
-let ballParticleIndex = 0;
-
 let mouseTime = 0;
 
 const STEPS_PER_FRAME = 5;
@@ -173,46 +170,6 @@ function init() {
             }
         }
 
-        // Set up snowball particles
-        {
-            const geometry = new THREE.BufferGeometry();
-
-            const positions = [];
-
-            const directions = [];
-
-            for ( let i = 0; i < NUMBER_OF_BALL_PARTICLES; i ++ ) {
-
-                positions.push( -100, -100, -100);
-
-                directions.push( 0, 0, 0 );
-
-            }
-
-            geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-
-            // geometry.setAttribute( 'direction', new THREE.Float32BufferAttribute( directions, 3 ) );
-
-            const textureLoader = new THREE.TextureLoader();
-
-            // const map = textureLoader.load( '/sprites/snowflake1.png' );
-
-            const material = new THREE.PointsMaterial( {
-                size: .1,
-                color: 0xffffff,
-                // map,
-                // blending: THREE.AdditiveBlending,
-                depthTest: false,
-                // transparent: true,
-                // fog: false,
-                // side: THREE.DoubleSide,
-            });
-
-            ballParticles = new THREE.Points( geometry, material );
-
-            scene.add( ballParticles );
-        }
-
         // Physics
 
         worldOctree = new Octree();
@@ -302,8 +259,6 @@ function animate() {
         updatePlayer( deltaTime );
 
         updateBalls( deltaTime );
-
-        updateBallParticles( deltaTime );
 
         updateSnowfall( deltaTime);
 
@@ -430,7 +385,7 @@ function updateBalls( deltaTime ) {
 
             const lineMesh = new THREE.Line( geometry, material );
 
-            // scene.add( lineMesh );
+            scene.add( lineMesh );
 
             // Add red point to scene to show ball collider center
 
@@ -440,7 +395,7 @@ function updateBalls( deltaTime ) {
 
             const pointMesh = new THREE.Points( geometry2, material2 );
 
-            // scene.add( pointMesh );
+            scene.add( pointMesh );
 
             // Add blue point to scene to show collider center plus collision normal/depth
 
@@ -450,34 +405,7 @@ function updateBalls( deltaTime ) {
 
             const pointMesh2 = new THREE.Points( geometry3, material3 );
 
-            // scene.add( pointMesh2 );
-
-            // Add particles where the ball collided, with directions pointing outwards
-
-            const particlePositions = ballParticles.geometry.attributes.position.array;
-            // const particleDirections = ballParticles.geometry.attributes.direction.array;
-
-            for (let i = ballParticleIndex; i < ballParticleIndex + PARTICLES_PER_BALL; i++) {
-
-                particlePositions[i * 3] = ball.collider.center.x;
-                particlePositions[i * 3 + 1] = ball.collider.center.y;
-                particlePositions[i * 3 + 2] = ball.collider.center.z;
-
-                // const direction = collision.normal.clone();
-
-                // particleDirections[i * 3] = direction.x;
-                // particleDirections[i * 3 + 1] = direction.y;
-                // particleDirections[i * 3 + 2] = direction.z;
-
-            }
-
-            ballParticles.geometry.attributes.position.needsUpdate = true;
-            // ballParticles.geometry.attributes.direction.needsUpdate = true;
-
-            ballParticleIndex += PARTICLES_PER_BALL;
-            if (ballParticleIndex >= NUMBER_OF_BALL_PARTICLES) {
-                ballParticleIndex = 0;
-            }
+            scene.add( pointMesh2 );
 
             // Move the ball outside the bounding box
 
@@ -498,31 +426,6 @@ function updateBalls( deltaTime ) {
     } );
 
 }
-
-function updateBallParticles( deltaTime ) {
-
-    // Move ball particles based on their direction attribute
-
-    // const positions = ballParticles.geometry.attributes.position.array;
-    // const directions = ballParticles.geometry.attributes.direction.array;
-
-    // for (let i = 0; i < NUMBER_OF_BALL_PARTICLES; i++) {
-
-    //     const initialPosition = new THREE.Vector3( positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2] );
-
-    //     const direction = new THREE.Vector3( directions[i * 3], directions[i * 3 + 1], directions[i * 3 + 2] );
-
-    //     const position = initialPosition.addScaledVector( direction, deltaTime * 10 );
-
-    //     positions[i * 3] += position.x;
-    //     positions[i * 3 + 1] += position.y;
-    //     positions[i * 3 + 2] += position.z;
-
-    // }
-
-    // ballParticles.geometry.attributes.position.needsUpdate = true;
-}
-
 
 function updateSnowfall( deltaTime ) {
 
