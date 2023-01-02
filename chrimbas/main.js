@@ -129,30 +129,12 @@ function init() {
 
             if ( child.isMesh ) {
 
-                let color = 0xffffff;
-
-                switch (child.name) {
-                    case 'Fences':
-                        color = 0x321A08;
-                        break;
-
-                    case 'Hat':
-                    case 'Eyes':
-                        color = 0x000000;
-                        break;
-
-                    case 'Nose':
-                    color = 0xff6600;
-                    break;
-                    
-                    default:
-                        
-                }
-
                 if (child.name !== 'Fences') {
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
+
+                const color = child.material.color;
 
                 if (child.name === 'Eyes') {
                     child.material = new THREE.MeshPhongMaterial( { color, specular: 0xffffff, shininess: 100 } );
@@ -197,31 +179,33 @@ function init() {
 
             const positions = [];
 
-            const normals = [];
+            const directions = [];
 
             for ( let i = 0; i < NUMBER_OF_BALL_PARTICLES; i ++ ) {
 
                 positions.push( -100, -100, -100);
 
-                normals.push( 0, 0, 0 );
+                directions.push( 0, 0, 0 );
 
             }
 
             geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
 
-            geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
+            // geometry.setAttribute( 'direction', new THREE.Float32BufferAttribute( directions, 3 ) );
 
             const textureLoader = new THREE.TextureLoader();
 
-            const map = textureLoader.load( '/sprites/snowflake1.png' );
+            // const map = textureLoader.load( '/sprites/snowflake1.png' );
 
             const material = new THREE.PointsMaterial( {
                 size: .1,
-                map,
-                blending: THREE.AdditiveBlending,
-                depthTest: true,
-                transparent: true,
-                fog: false,
+                color: 0xffffff,
+                // map,
+                // blending: THREE.AdditiveBlending,
+                depthTest: false,
+                // transparent: true,
+                // fog: false,
+                // side: THREE.DoubleSide,
             });
 
             ballParticles = new THREE.Points( geometry, material );
@@ -436,10 +420,42 @@ function updateBalls( deltaTime ) {
 
         if (collision) {
 
-            // Add particles where the ball collided, with normals pointing outwards
+            // Add a line to the scene to show the collision normal
+
+            const line = new THREE.Line3( ball.collider.center, ball.collider.center.clone().addScaledVector( collision.normal, collision.depth * 10 ) );
+
+            const geometry = new THREE.BufferGeometry().setFromPoints( [ line.start, line.end ] );
+
+            const material = new THREE.LineBasicMaterial( { color: 0x00ff00 } );
+
+            const lineMesh = new THREE.Line( geometry, material );
+
+            // scene.add( lineMesh );
+
+            // Add red point to scene to show ball collider center
+
+            const geometry2 = new THREE.BufferGeometry().setFromPoints( [ ball.collider.center ] );
+
+            const material2 = new THREE.PointsMaterial( { color: 0xff0000, size: 0.1 } );
+
+            const pointMesh = new THREE.Points( geometry2, material2 );
+
+            // scene.add( pointMesh );
+
+            // Add blue point to scene to show collider center plus collision normal/depth
+
+            const geometry3 = new THREE.BufferGeometry().setFromPoints( [ ball.collider.center.clone().addScaledVector( collision.normal, collision.depth ) ] );
+
+            const material3 = new THREE.PointsMaterial( { color: 0x0000ff, size: 0.1 } );
+
+            const pointMesh2 = new THREE.Points( geometry3, material3 );
+
+            // scene.add( pointMesh2 );
+
+            // Add particles where the ball collided, with directions pointing outwards
 
             const particlePositions = ballParticles.geometry.attributes.position.array;
-            const particleNormals = ballParticles.geometry.attributes.normal.array;
+            // const particleDirections = ballParticles.geometry.attributes.direction.array;
 
             for (let i = ballParticleIndex; i < ballParticleIndex + PARTICLES_PER_BALL; i++) {
 
@@ -447,22 +463,21 @@ function updateBalls( deltaTime ) {
                 particlePositions[i * 3 + 1] = ball.collider.center.y;
                 particlePositions[i * 3 + 2] = ball.collider.center.z;
 
-                const normal = new THREE.Vector3(
-                    collision.normal.x + Math.random() * 0.2 - 0.1,
-                    collision.normal.y + Math.random() * 0.2 - 0.1,
-                    collision.normal.z + Math.random() * 0.2 - 0.1
-                );
+                // const direction = collision.normal.clone();
 
-                particleNormals[i * 3] = normal.x;
-                particleNormals[i * 3 + 1] = normal.y;
-                particleNormals[i * 3 + 2] = normal.z;
+                // particleDirections[i * 3] = direction.x;
+                // particleDirections[i * 3 + 1] = direction.y;
+                // particleDirections[i * 3 + 2] = direction.z;
 
             }
 
             ballParticles.geometry.attributes.position.needsUpdate = true;
-            ballParticles.geometry.attributes.normal.needsUpdate = true;
+            // ballParticles.geometry.attributes.direction.needsUpdate = true;
 
-            ballParticleIndex = (ballParticleIndex + PARTICLES_PER_BALL) % PARTICLES_PER_BALL;
+            ballParticleIndex += PARTICLES_PER_BALL;
+            if (ballParticleIndex >= NUMBER_OF_BALL_PARTICLES) {
+                ballParticleIndex = 0;
+            }
 
             // Move the ball outside the bounding box
 
@@ -486,20 +501,26 @@ function updateBalls( deltaTime ) {
 
 function updateBallParticles( deltaTime ) {
 
-    // Move ball particles in direction of their normal
+    // Move ball particles based on their direction attribute
 
-    const positions = ballParticles.geometry.attributes.position.array;
-    const normals = ballParticles.geometry.attributes.normal.array;
+    // const positions = ballParticles.geometry.attributes.position.array;
+    // const directions = ballParticles.geometry.attributes.direction.array;
 
-    for (let i = 0; i < NUMBER_OF_BALL_PARTICLES; i++) {
+    // for (let i = 0; i < NUMBER_OF_BALL_PARTICLES; i++) {
 
-        positions[i * 3] += normals[i * 3] * deltaTime * 5;
-        positions[i * 3 + 1] += (normals[i * 3 + 1] * deltaTime * 5) - (0.1 * GRAVITY * deltaTime);
-        positions[i * 3 + 2] += normals[i * 3 + 2] * deltaTime * 5;
+    //     const initialPosition = new THREE.Vector3( positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2] );
 
-    }
+    //     const direction = new THREE.Vector3( directions[i * 3], directions[i * 3 + 1], directions[i * 3 + 2] );
 
-    ballParticles.geometry.attributes.position.needsUpdate = true;
+    //     const position = initialPosition.addScaledVector( direction, deltaTime * 10 );
+
+    //     positions[i * 3] += position.x;
+    //     positions[i * 3 + 1] += position.y;
+    //     positions[i * 3 + 2] += position.z;
+
+    // }
+
+    // ballParticles.geometry.attributes.position.needsUpdate = true;
 }
 
 
