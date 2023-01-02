@@ -33,9 +33,19 @@ function init() {
 
     clock = new THREE.Clock();
 
+    const textureCube = new THREE.CubeTextureLoader().load( [
+        '/textures/skybox/clouds1_east_g.bmp',
+        '/textures/skybox/clouds1_west_g.bmp',
+        '/textures/skybox/clouds1_up_g.bmp',
+        '/textures/skybox/clouds1_down_g.bmp',
+        '/textures/skybox/clouds1_north_g.bmp',
+        '/textures/skybox/clouds1_south_g.bmp',
+    ] );
+
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x88aacc );
-    scene.fog = new THREE.Fog( 0x88aacc, 0, 22 );
+    // scene.background = new THREE.Color( 0x88aacc );
+    scene.background = textureCube;
+    // scene.fog = new THREE.Fog( 0x88aacc, 0, 22 );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
