@@ -9,6 +9,7 @@ export default defineConfig({
                 fourOhFour: resolve(__dirname, '404.html'),
                 potholderz: resolve(__dirname, 'potholderz/index.html'),
                 chrimbas: resolve(__dirname, 'chrimbas/index.html'),
+                ballpit: resolve(__dirname, 'ballpit/index.html'),
             }
         }
     }
