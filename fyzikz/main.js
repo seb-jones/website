@@ -79,67 +79,39 @@ function createStaticGeometry() {
 
     staticMeshGroup.add(floorMesh);
 
-    // Add a cube
+    // Add 10 boxes of random size, position and rotation
 
-    const cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
+    for (let i = 0; i < 100; i++) {
+        const boxGeometry = new THREE.BoxGeometry(
+            Math.random() * 10 + 5,
+            Math.random() * 10 + 5,
+            Math.random() * 10 + 5,
+            1,
+            1,
+            1,
+        );
 
-    const cubeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x00ff00,
-        side: THREE.FrontSide,
-    });
+        const boxMaterial = new THREE.MeshStandardMaterial({
+            color: Math.random() * 0xffffff,
+            side: THREE.FrontSide,
+        });
 
-    const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 
-    cubeMesh.position.set(20, 5, -20);
-    cubeMesh.rotation.set(0, 45, 0);
+        boxMesh.position.set(
+            Math.random() * 100 - 50,
+            10,
+            Math.random() * 100 - 50,
+        );
 
-    staticMeshGroup.add(cubeMesh);
+        boxMesh.rotation.set(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+        );
 
-    // Add a pyramid
-
-    const pyramidGeometry = new THREE.ConeGeometry(10, 10, 4, 1, false);
-
-    const pyramidMaterial = new THREE.MeshStandardMaterial({
-        color: 0xff0000,
-        side: THREE.FrontSide,
-    });
-
-    const pyramidMesh = new THREE.Mesh(pyramidGeometry, pyramidMaterial);
-
-    pyramidMesh.position.set(-20, 5, 0);
-
-    staticMeshGroup.add(pyramidMesh);
-
-    // Add a cylinder
-    
-    const cylinderGeometry = new THREE.CylinderGeometry(10, 10, 10, 20);
-
-    const cylinderMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0000ff,
-        side: THREE.FrontSide,
-    });
-
-    const cylinderMesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-
-    cylinderMesh.position.set(37, 5, 10);
-
-    staticMeshGroup.add(cylinderMesh);
-
-    // Add a torus
-
-    const torusGeometry = new THREE.TorusGeometry(10, 3, 10, 20);
-
-    const torusMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffff00,
-        side: THREE.FrontSide,
-    });
-
-    const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
-
-    torusMesh.position.set(10, 5, 35);
-    torusMesh.rotation.set(30, 0, 0);
-
-    staticMeshGroup.add(torusMesh);
+        staticMeshGroup.add(boxMesh);
+    }
 }
 
 function createDynamicGeometry() {
