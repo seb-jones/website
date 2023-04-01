@@ -6,7 +6,8 @@ import { AmmoPhysics } from 'three/examples/jsm/physics/AmmoPhysics.js';
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-let clock, scene, camera, renderer, stats;
+let clock, scene, container, renderer, camera, stats;
+let raycaster, pointer, highlightColumnMesh, highlightCircleMesh;
 let physics;
 let staticMeshGroup, dynamicMeshGroup;
 
@@ -18,7 +19,7 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xaaaaaa);
 
-    const container = document.getElementById('container');
+    container = document.getElementById('container');
 
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -43,6 +44,8 @@ function init() {
     createLighting();
 
     createPhysics();
+
+    createRaycaster();
 
     animate();
 }
@@ -157,7 +160,6 @@ function createDynamicGeometry() {
     dynamicMeshGroup.add(sphereMesh);
 }
 
-
 function createLighting() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
@@ -175,6 +177,57 @@ async function createPhysics() {
 
     // Add all dynamic meshes to the physics world with a mass of 1
     dynamicMeshGroup.children.forEach(mesh => physics.addMesh(mesh, 1));
+}
+
+function createRaycaster() {
+    raycaster = new THREE.Raycaster();
+    pointer = new THREE.Vector2();
+    
+    highlightColumnMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(2, 2, 200, 10),
+        new THREE.MeshBasicMaterial({ color: 0xffd700, opacity: 0.5, transparent: true }),
+    );
+
+    highlightColumnMesh.visible = false;
+
+    scene.add(highlightColumnMesh);
+
+    highlightCircleMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(2, 10),
+        new THREE.MeshBasicMaterial({ color: 0xffffff }),
+    );
+
+    highlightCircleMesh.position.y = 2;
+    highlightCircleMesh.rotation.x = -Math.PI / 2;
+    highlightCircleMesh.visible = false;
+
+    scene.add(highlightCircleMesh);
+
+    container.addEventListener('pointermove', (event) => {
+        pointer.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+        pointer.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+
+        raycaster.setFromCamera(pointer, camera);
+
+        const intersects = raycaster.intersectObjects(staticMeshGroup.children);
+
+        if (intersects.length > 0) {
+            highlightColumnMesh.visible = true;
+            highlightColumnMesh.position.copy(intersects[0].point);
+            highlightColumnMesh.position.y += 100;
+
+            highlightCircleMesh.visible = true;
+            highlightCircleMesh.position.copy(intersects[0].point);
+            highlightCircleMesh.position.y += 1;
+
+            document.body.style.cursor = 'none';
+        } else {
+            highlightColumnMesh.visible = false;
+            highlightCircleMesh.visible = false;
+
+            document.body.style.cursor = 'auto';
+        }
+    });
 }
 
 function animate() {
