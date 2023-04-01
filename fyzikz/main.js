@@ -47,6 +47,8 @@ function init() {
 
     createRaycaster();
 
+    spawnDynamicSphereOnMouseClick();
+
     animate();
 }
 
@@ -142,18 +144,10 @@ function createStaticGeometry() {
 
 function createDynamicGeometry() {
     dynamicMeshGroup = new THREE.Group();
+
     scene.add(dynamicMeshGroup);
 
-    // Add a sphere
-
-    const sphereGeometry = new THREE.SphereGeometry(2, 20, 20);
-
-    const sphereMaterial = new THREE.MeshStandardMaterial({
-        color: 0x00ffff,
-        side: THREE.FrontSide,
-    });
-
-    const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    const sphereMesh = createDynamicSphere();
 
     sphereMesh.position.set(0, 50, 0);
 
@@ -203,7 +197,7 @@ function createRaycaster() {
 
     scene.add(highlightCircleMesh);
 
-    container.addEventListener('pointermove', (event) => {
+    container.addEventListener('pointermove', event => {
         pointer.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
         pointer.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
 
@@ -229,6 +223,36 @@ function createRaycaster() {
         }
     });
 }
+
+function spawnDynamicSphereOnMouseClick() {
+    container.addEventListener('click', event => {
+        if (!highlightColumnMesh.visible) {
+            return;
+        }
+
+        const sphereMesh = createDynamicSphere();
+
+        sphereMesh.position.copy(highlightColumnMesh.position);
+
+        sphereMesh.position.y = 50;
+
+        physics.addMesh(sphereMesh, 1);
+
+        dynamicMeshGroup.add(sphereMesh);
+    });
+}
+
+function createDynamicSphere() {
+    const sphereGeometry = new THREE.SphereGeometry(2, 20, 20);
+
+    const sphereMaterial = new THREE.MeshStandardMaterial({
+        color: 0x00ffff,
+        side: THREE.FrontSide,
+    });
+
+    return new THREE.Mesh(sphereGeometry, sphereMaterial);
+}
+
 
 function animate() {
     renderer.render(scene, camera);
