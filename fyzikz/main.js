@@ -12,7 +12,7 @@ let staticMeshGroup, dynamicMeshGroup;
 
 init();
 
-async function init() {
+function init() {
     clock = new THREE.Clock();
 
     scene = new THREE.Scene();
