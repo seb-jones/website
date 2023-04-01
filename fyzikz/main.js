@@ -81,7 +81,7 @@ function createStaticGeometry() {
 
     const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-    cubeMesh.position.set(20, 30, 0);
+    cubeMesh.position.set(20, 5, -20);
     cubeMesh.rotation.set(0, 45, 0);
 
     staticMeshGroup.add(cubeMesh);
@@ -97,7 +97,7 @@ function createStaticGeometry() {
 
     const pyramidMesh = new THREE.Mesh(pyramidGeometry, pyramidMaterial);
 
-    pyramidMesh.position.set(-10, 20, 20);
+    pyramidMesh.position.set(-20, 5, 0);
 
     staticMeshGroup.add(pyramidMesh);
 
@@ -112,7 +112,7 @@ function createStaticGeometry() {
 
     const cylinderMesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 
-    cylinderMesh.position.set(40, 20, 20);
+    cylinderMesh.position.set(37, 5, 10);
 
     staticMeshGroup.add(cylinderMesh);
 
@@ -127,8 +127,8 @@ function createStaticGeometry() {
 
     const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
 
-    torusMesh.position.set(10, 12, 40);
-    torusMesh.rotation.set(0, 10, 0);
+    torusMesh.position.set(10, 5, 35);
+    torusMesh.rotation.set(30, 0, 0);
 
     staticMeshGroup.add(torusMesh);
 }
