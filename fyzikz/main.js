@@ -2,15 +2,17 @@ import './style.css';
 
 import * as THREE from 'three';
 
+import { AmmoPhysics } from 'three/examples/jsm/physics/AmmoPhysics.js';
+
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 let clock, scene, camera, renderer, stats;
-
+let physics;
 let staticMeshGroup, dynamicMeshGroup;
 
 init();
 
-function init() {
+async function init() {
     clock = new THREE.Clock();
 
     scene = new THREE.Scene();
@@ -40,6 +42,8 @@ function init() {
 
     createLighting();
 
+    createPhysics();
+
     animate();
 }
 
@@ -55,20 +59,20 @@ function createStaticGeometry() {
     staticMeshGroup = new THREE.Group();
     scene.add(staticMeshGroup);
 
-    // Add a plane to represent the floor
+    // Add a box to represent the floor
 
-    const planeGeometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+    const floorGeometry = new THREE.BoxGeometry(100, 100, 1, 1);
 
-    const planeMaterial = new THREE.MeshStandardMaterial({
+    const floorMaterial = new THREE.MeshStandardMaterial({
         color: 0x444444,
         side: THREE.FrontSide,
     });
 
-    const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
 
-    planeMesh.rotation.x = -Math.PI / 2;
+    floorMesh.rotation.x = -Math.PI / 2;
 
-    staticMeshGroup.add(planeMesh);
+    staticMeshGroup.add(floorMesh);
 
     // Add a cube
 
@@ -161,6 +165,16 @@ function createLighting() {
     const pointLight = new THREE.PointLight(0xffffff, 0.5);
     pointLight.position.set(0, 100, 0);
     scene.add(pointLight);
+}
+
+async function createPhysics() {
+    physics = await AmmoPhysics();
+
+    // Add all static meshes to the physics world with a mass of 0
+    staticMeshGroup.children.forEach(mesh => physics.addMesh(mesh, 0));
+
+    // Add all dynamic meshes to the physics world with a mass of 1
+    dynamicMeshGroup.children.forEach(mesh => physics.addMesh(mesh, 1));
 }
 
 function animate() {
