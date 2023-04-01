@@ -214,11 +214,11 @@ function createRaycaster() {
         if (intersects.length > 0) {
             highlightColumnMesh.visible = true;
             highlightColumnMesh.position.copy(intersects[0].point);
-            highlightColumnMesh.position.y += 100;
+            highlightColumnMesh.position.y += 100.5;
 
             highlightCircleMesh.visible = true;
             highlightCircleMesh.position.copy(intersects[0].point);
-            highlightCircleMesh.position.y += 1;
+            highlightCircleMesh.position.y += 0.5;
 
             document.body.style.cursor = 'none';
         } else {
