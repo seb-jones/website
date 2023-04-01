@@ -29,7 +29,7 @@ function init() {
     container.appendChild(stats.domElement);
 
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.set(100, 100, 100);
+    camera.position.set(75, 75, 75);
     camera.lookAt(0, 0, 0);
 
     window.addEventListener( 'resize', onWindowResize );
