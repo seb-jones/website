@@ -78,7 +78,7 @@ function createRaycaster() {
     pointer = new THREE.Vector2();
 
     highlightColumnMesh = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.1, 0.1, 200, 10),
+        new THREE.CylinderGeometry(0.1, 0.1, 0.1, 10),
         new THREE.MeshBasicMaterial({ color: 0xffd700, opacity: 0.5, transparent: true }),
     );
 
@@ -97,7 +97,7 @@ function createRaycaster() {
         if (intersects.length > 0) {
             highlightColumnMesh.visible = true;
             highlightColumnMesh.position.copy(intersects[0].point);
-            highlightColumnMesh.position.y += 100.5;
+            highlightColumnMesh.position.y += 0.5;
 
             document.body.style.cursor = 'none';
         } else {
